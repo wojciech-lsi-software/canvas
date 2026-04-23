@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PRODUCT_NAME}} — prezentacja dla {{CLIENT_NAME}}</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; color: #37352f; background: #fff; }
+.slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px; border-bottom: 2px solid #e9e9e7; }
+.slide-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: {{ACCENT_COLOR}}; margin-bottom: 16px; }
+.slide h1 { font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 24px; }
+.slide h2 { font-size: 36px; font-weight: 800; margin-bottom: 24px; }
+.slide p { font-size: 20px; color: #787774; max-width: 640px; line-height: 1.7; }
+.slide-title { background: linear-gradient(135deg, {{ACCENT_COLOR}}, #1a65c0); color: white; }
+.slide-title .slide-label { color: rgba(255,255,255,0.7); }
+.slide-title h1 { color: white; }
+.slide-title p { color: rgba(255,255,255,0.85); }
+.slide-title img { height: 56px; margin-bottom: 32px; }
+.points { margin-top: 24px; display: flex; flex-direction: column; gap: 16px; }
+.point { display: flex; gap: 16px; align-items: flex-start; }
+.point-icon { font-size: 28px; flex-shrink: 0; }
+.point-text h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.point-text p { font-size: 15px; color: #787774; }
+.cta-slide { background: {{ACCENT_COLOR}}; color: white; text-align: center; }
+.cta-slide h2 { color: white; font-size: 42px; }
+.cta-slide p { color: rgba(255,255,255,0.85); margin: 0 auto; }
+.cta-btn { display: inline-block; margin-top: 32px; background: white; color: {{ACCENT_COLOR}}; padding: 16px 40px; border-radius: 8px; font-size: 18px; font-weight: 700; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<section class="slide slide-title">
+  <img src="{{LOGO_URL}}" alt="{{CLIENT_NAME}}" onerror="this.style.display='none'">
+  <div class="slide-label">Prezentacja dla {{CLIENT_INDUSTRY}}</div>
+  <h1>{{PRODUCT_NAME}}<br>dla {{CLIENT_NAME}}</h1>
+  <p>{{FOCUS}}</p>
+</section>
+
+<section class="slide">
+  <div class="slide-label">Wyzwanie</div>
+  <h2>Problem, który rozwiązujemy dla {{CLIENT_INDUSTRY}}</h2>
+  <div class="points">
+    <div class="point"><span class="point-icon">⚡</span><div class="point-text"><h3>Fragmentaryczne narzędzia</h3><p>Wiele systemów, brak spójności danych, tracony czas na ręczne procesy.</p></div></div>
+    <div class="point"><span class="point-icon">📉</span><div class="point-text"><h3>Niskie ROI z IT</h3><p>Inwestycje w technologię nie przekładają się na wyniki biznesowe.</p></div></div>
+    <div class="point"><span class="point-icon">🔍</span><div class="point-text"><h3>Brak widoczności</h3><p>Decyzje podejmowane bez danych w czasie rzeczywistym.</p></div></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="slide-label">Rozwiązanie</div>
+  <h2>Jak {{PRODUCT_NAME}} odpowiada na potrzeby {{CLIENT_NAME}}</h2>
+  <div class="points">
+    <div class="point"><span class="point-icon">✅</span><div class="point-text"><h3>Jeden zintegrowany system</h3><p>Wszystkie procesy w jednym miejscu. {{FOCUS}}.</p></div></div>
+    <div class="point"><span class="point-icon">📊</span><div class="point-text"><h3>Dane w czasie rzeczywistym</h3><p>Dashboardy i raporty dostępne zawsze i wszędzie.</p></div></div>
+    <div class="point"><span class="point-icon">🚀</span><div class="point-text"><h3>Szybkie wdrożenie</h3><p>Działający system w 30 dni. Dedykowany opiekun przez cały czas.</p></div></div>
+  </div>
+</section>
+
+<section class="slide cta-slide">
+  <div class="slide-label" style="color:rgba(255,255,255,0.7)">Następny krok</div>
+  <h2>Zacznijmy razem</h2>
+  <p>Umów bezpłatną prezentację {{PRODUCT_NAME}} dedykowaną dla {{CLIENT_INDUSTRY}}.</p>
+  <a href="mailto:sprzedaz@lsisoftware.pl" class="cta-btn">Napisz do nas →</a>
+</section>
+
+</body>
+</html>

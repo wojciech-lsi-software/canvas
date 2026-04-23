@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nogasite — {{CLIENT_NAME}}</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; color: #37352f; line-height: 1.6; }
+.hero { background: linear-gradient(135deg, {{ACCENT_COLOR}}, #1a65c0); padding: 80px 40px; text-align: center; color: white; }
+.hero-logo { height: 48px; margin-bottom: 24px; }
+.hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+.hero p { font-size: 20px; opacity: 0.85; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.cta { display: inline-block; background: white; color: {{ACCENT_COLOR}}; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 700; text-decoration: none; }
+.section { padding: 60px 40px; max-width: 960px; margin: 0 auto; }
+.section h2 { font-size: 28px; font-weight: 700; margin-bottom: 32px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.card { border: 1px solid #e9e9e7; border-radius: 8px; padding: 24px; }
+.card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.card p { font-size: 14px; color: #787774; }
+.footer { background: #f7f7f5; padding: 40px; text-align: center; font-size: 14px; color: #787774; }
+</style>
+</head>
+<body>
+<section class="hero">
+  <img src="{{LOGO_URL}}" alt="{{CLIENT_NAME}}" class="hero-logo" onerror="this.style.display='none'">
+  <h1>Nogasite — sklep dla {{CLIENT_INDUSTRY}}</h1>
+  <p>Platforma e-commerce skrojona pod {{CLIENT_NAME}}. {{FOCUS}}.</p>
+  <a href="#kontakt" class="cta">Umów bezpłatną prezentację →</a>
+</section>
+<section class="section">
+  <h2>Dlaczego {{PRODUCT_NAME}} dla {{CLIENT_INDUSTRY}}?</h2>
+  <div class="cards">
+    <div class="card"><h3>🛒 E-commerce</h3><p>Sklep internetowy gotowy do sprzedaży od pierwszego dnia. Intuicyjny panel, bogata konfiguracja.</p></div>
+    <div class="card"><h3>💳 Płatności</h3><p>Integracje z Przelewy24, Stripe, BLIK i innymi. Wysoka konwersja koszyka.</p></div>
+    <div class="card"><h3>📦 Logistyka</h3><p>Automatyczne etykiety kurierskie. Integracje z InPost, DPD, DHL. Śledzenie w czasie rzeczywistym.</p></div>
+  </div>
+</section>
+<section class="section" id="kontakt" style="background:#f7f7f5;max-width:100%;padding:60px 40px">
+  <div style="max-width:500px;margin:0 auto;text-align:center">
+    <h2>Umów prezentację</h2>
+    <p style="margin-bottom:24px;color:#787774">Pokażemy jak {{PRODUCT_NAME}} działa dla {{CLIENT_INDUSTRY}} na żywym przykładzie.</p>
+    <a href="mailto:sprzedaz@lsisoftware.pl" style="display:inline-block;background:{{ACCENT_COLOR}};color:white;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none">Napisz do nas →</a>
+  </div>
+</section>
+<footer class="footer">
+  <p>© 2026 LSI Software S.A. · <a href="https://lsisoftware.pl" style="color:{{ACCENT_COLOR}}">lsisoftware.pl</a></p>
+</footer>
+</body>
+</html>
