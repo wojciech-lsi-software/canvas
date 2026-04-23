@@ -1,7 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import LoginScreen from '@/components/LoginScreen'
 
-process.env.NEXT_PUBLIC_APP_PASSWORD = 'test123'
+beforeEach(() => {
+  process.env.NEXT_PUBLIC_APP_PASSWORD = 'test123'
+})
 
 test('renderuje formularz logowania z logo LSI', () => {
   render(<LoginScreen onLogin={jest.fn()} />)
