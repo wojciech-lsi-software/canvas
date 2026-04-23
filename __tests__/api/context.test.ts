@@ -27,6 +27,8 @@ test('GET zwraca kontekst z KV', async () => {
   const data = await res.json()
   expect(data.team).toHaveLength(1)
   expect(data.team[0].name).toBe('Wojciech')
+  expect(data.epics[0].id).toBe('paid')
+  expect(data.synced_at).toBe('2026-04-23T10:00:00Z')
 })
 
 test('GET zwraca pusty obiekt gdy KV nie ma danych', async () => {

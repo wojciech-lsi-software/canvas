@@ -9,7 +9,7 @@ export async function fetchContext(): Promise<LSIContext> {
   try {
     const res = await fetch('/api/context', { cache: 'no-store' })
     if (!res.ok) return {}
-    return res.json()
+    return res.json() as Promise<LSIContext>
   } catch {
     return {}
   }
