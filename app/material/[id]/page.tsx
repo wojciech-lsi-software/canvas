@@ -12,8 +12,10 @@ export default function MaterialEditor() {
   const [material, setMaterial] = useState<Material | null>(null)
   const [params, setParams] = useState<RemixParams>(DEFAULT_PARAMS)
   const [previewUrl, setPreviewUrl] = useState('')
+  const [previewKey, setPreviewKey] = useState(0)
   const [loading, setLoading] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     fetch(`/api/materials?id=${id}`)
@@ -30,17 +32,24 @@ export default function MaterialEditor() {
   async function regenerate() {
     if (!material?.templateId) return
     setLoading(true)
+    setError('')
     try {
       const res = await fetch('/api/remix', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ templateId: material.templateId, params }),
       })
-      if (!res.ok) return
+      if (!res.ok) {
+        setError(`Regeneracja nie powiodła się (${res.status})`)
+        return
+      }
       const data = await res.json()
-      if (data.url) setPreviewUrl(data.url)
-    } catch {
-      // network error — loading resets, preview unchanged
+      if (data.url) {
+        setPreviewUrl(data.url)
+        setPreviewKey(k => k + 1)
+      }
+    } catch (e: any) {
+      setError(`Błąd sieci: ${e?.message ?? 'nieznany'}`)
     } finally {
       setLoading(false)
     }
@@ -76,13 +85,20 @@ export default function MaterialEditor() {
         </div>
       </div>
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-        <ParamsPanel params={params} onChange={setParams} onRegenerate={regenerate} loading={loading} />
+        <ParamsPanel
+          params={params}
+          onChange={setParams}
+          onRegenerate={regenerate}
+          loading={loading}
+          disabledReason={!material.templateId ? 'Edycja live dostępna tylko dla materiałów wygenerowanych z szablonu. Zacznij nowy materiał z biblioteki szablonów, żeby edytować parametry na żywo.' : undefined}
+        />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <div style={{ padding: '5px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg-sidebar)', display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--text-muted)', flexShrink: 0 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)' }} />
-            Podgląd live
+          <div style={{ padding: '5px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg-sidebar)', display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: 'var(--text-muted)', flexShrink: 0 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: loading ? '#f59e0b' : 'var(--green)' }} />
+            {loading ? 'Regeneruję...' : 'Podgląd live'}
+            {error && <span style={{ color: '#b91c1c', marginLeft: 8 }}>{error}</span>}
           </div>
-          <iframe src={previewUrl} style={{ flex: 1, border: 'none', width: '100%' }} />
+          <iframe key={previewKey} src={previewUrl} style={{ flex: 1, border: 'none', width: '100%' }} />
         </div>
       </div>
     </div>

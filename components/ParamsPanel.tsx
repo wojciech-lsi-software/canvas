@@ -1,14 +1,17 @@
 import { RemixParams } from '@/lib/templates'
 import InfoTip from '@/components/InfoTip'
 
-const PRODUCTS = ['Cinema', 'LSI Cloud', 'Nogasite', 'Inny']
-const COLORS = ['#2383e2', '#0f7b6c', '#9b6700', '#c4320a', '#5b21b6', '#37352f']
+const PRODUCT_GROUPS: { label: string; items: string[] }[] = [
+  { label: 'LSI', items: ['Cinema', 'LSI Cloud', 'Positive Restaurant', 'Nogasite', 'Pozytyw Hotel', 'Pozytyw Cinema'] },
+  { label: 'Robotyka', items: ['PUDU T300', 'PUDU T600', 'PUDU CC1 Pro', 'PUDU MT1', 'PUDU KettyBot', 'PUDU BellaBot', 'PUDU HolaBot'] },
+]
 
 interface Props {
   params: RemixParams
   onChange: (p: RemixParams) => void
   onRegenerate: () => void
   loading: boolean
+  disabledReason?: string
 }
 
 const label = (text: string) => (
@@ -19,44 +22,54 @@ const field = (value: string, placeholder: string, onChange: (v: string) => void
   <input value={value} placeholder={placeholder} onChange={e => onChange(e.target.value)} style={{ width: '100%', padding: '5px 8px', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, marginBottom: 10, outline: 'none', fontFamily: 'var(--font)' }} />
 )
 
-export default function ParamsPanel({ params, onChange, onRegenerate, loading }: Props) {
+export default function ParamsPanel({ params, onChange, onRegenerate, loading, disabledReason }: Props) {
   const set = (key: keyof RemixParams) => (val: string) => onChange({ ...params, [key]: val })
+  const disabled = !!disabledReason
 
   return (
-    <div style={{ width: 180, minWidth: 180, background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border)', padding: 10, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
-        Klient
-      </div>
+    <div style={{ width: 220, minWidth: 220, background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border)', padding: 12, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {label('Klient')}
       {field(params.clientName, 'Nazwa firmy', set('clientName'))}
-      {field(params.clientIndustry, 'Branża (np. Horeca, E-commerce)', set('clientIndustry'))}
-      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
-        Produkt LSI
-      </div>
-      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 10 }}>
-        {PRODUCTS.map(p => (
-          <button key={p} onClick={() => set('productName')(p)} style={{ padding: '2px 8px', borderRadius: 10, border: `1px solid ${params.productName === p ? 'var(--accent)' : 'var(--border)'}`, background: params.productName === p ? 'var(--accent-bg)' : 'white', color: params.productName === p ? 'var(--accent)' : 'var(--text-secondary)', fontSize: 10, cursor: 'pointer' }}>{p}</button>
-        ))}
-      </div>
+      {field(params.clientIndustry, 'Branża', set('clientIndustry'))}
+
+      {label('Produkt')}
+      {PRODUCT_GROUPS.map(g => (
+        <div key={g.label} style={{ marginBottom: 6 }}>
+          <div style={{ fontSize: 9, color: 'var(--text-muted)', marginBottom: 4 }}>{g.label}</div>
+          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+            {g.items.map(p => (
+              <button key={p} onClick={() => set('productName')(p)} style={{ padding: '2px 7px', borderRadius: 10, border: `1px solid ${params.productName === p ? 'var(--accent)' : 'var(--border)'}`, background: params.productName === p ? 'var(--accent-bg)' : 'white', color: params.productName === p ? 'var(--accent)' : 'var(--text-secondary)', fontSize: 10, cursor: 'pointer' }}>{p}</button>
+            ))}
+          </div>
+        </div>
+      ))}
+      <div style={{ marginBottom: 10 }} />
+
       <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
         Logo klienta (URL)
-        <InfoTip text="Adres URL do pliku z logo klienta. Zostanie wstawione do materiału. Zostaw puste jeśli nie masz." />
+        <InfoTip text="Adres URL do pliku z logo klienta." />
       </div>
       {field(params.logoUrl, 'https://klient.pl/logo.png', set('logoUrl'))}
+
       <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
         Główny przekaz
-        <InfoTip text="O czym ma być materiał — co chcesz, żeby klient zapamiętał. Np. 'automatyzacja rezerwacji w hotelu' albo 'migracja sklepu do LSI Cloud'." />
+        <InfoTip text="Co materiał ma wyróżnić." />
       </div>
-      {field(params.focus, 'np. automatyzacja rezerwacji w hotelu', set('focus'))}
-      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
-        Kolor marki klienta
-        <InfoTip text="Wybierz kolor zbliżony do barw klienta. Zostanie użyty jako kolor przewodni materiału." />
+      {field(params.focus, 'np. migracja do LSI Cloud', set('focus'))}
+
+      {label('Kolor marki')}
+      <div style={{ display: 'flex', gap: 6, marginBottom: 14, alignItems: 'center' }}>
+        <input type="color" value={params.accentColor} onChange={e => set('accentColor')(e.target.value)} style={{ width: 34, height: 28, borderRadius: 4, border: '1px solid var(--border)', cursor: 'pointer', padding: 1, background: 'white' }} />
+        <input type="text" value={params.accentColor} onChange={e => { const v = e.target.value; if (/^#[0-9a-fA-F]{0,6}$/.test(v)) set('accentColor')(v) }} style={{ flex: 1, padding: '5px 7px', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, fontFamily: 'monospace', outline: 'none' }} />
       </div>
-      <div style={{ display: 'flex', gap: 5, marginBottom: 12 }}>
-        {COLORS.map(c => <button key={c} onClick={() => set('accentColor')(c)} style={{ width: 20, height: 20, borderRadius: 3, background: c, border: `2px solid ${params.accentColor === c ? 'var(--text-primary)' : 'transparent'}`, cursor: 'pointer' }} />)}
-      </div>
-      <button onClick={onRegenerate} disabled={loading} style={{ width: '100%', padding: '7px 0', background: loading ? 'var(--border)' : 'var(--accent)', color: 'white', border: 'none', borderRadius: 5, fontSize: 11, fontWeight: 600, cursor: loading ? 'default' : 'pointer' }}>
-        {loading ? 'Regeneruję...' : 'Regeneruj'}
-      </button>
+
+      {disabled ? (
+        <div style={{ padding: '8px 10px', background: '#fff7ed', border: '1px solid #fdba74', borderRadius: 5, fontSize: 11, color: '#9a3412', lineHeight: 1.4 }}>{disabledReason}</div>
+      ) : (
+        <button onClick={onRegenerate} disabled={loading} style={{ width: '100%', padding: '8px 0', background: loading ? 'var(--border)' : 'var(--accent)', color: 'white', border: 'none', borderRadius: 5, fontSize: 12, fontWeight: 600, cursor: loading ? 'default' : 'pointer' }}>
+          {loading ? 'Regeneruję...' : 'Regeneruj'}
+        </button>
+      )}
     </div>
   )
 }
