@@ -36,18 +36,6 @@ export default function ContextPage() {
         </button>
       </div>
 
-      {ctx.team?.length ? (
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Zespół</div>
-          {ctx.team.map(m => (
-            <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--accent)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700 }}>{m.initials}</div>
-              <div><div style={{ fontSize: 13, fontWeight: 500 }}>{m.name}</div><div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{m.role}</div></div>
-            </div>
-          ))}
-        </div>
-      ) : null}
-
       {ctx.epics?.length ? (
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Epiki</div>

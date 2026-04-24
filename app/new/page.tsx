@@ -15,21 +15,18 @@ const TYPES = [
   { id: 'email', label: 'Sekwencja emaili', desc: '3 gotowe emaile do wysyłki: pierwsze nawiązanie, follow-up z wartością, ostatnie podejście' },
 ]
 
-const PRODUCTS = [
-  'Cinema',
-  'LSI Cloud',
-  'Positive Restaurant',
-  'Nogasite',
-  'Pozytyw Hotel',
-  'Pozytyw Cinema',
-  'PUDU T300 · transport 300 kg',
-  'PUDU T600 · transport 600 kg',
-  'PUDU CC1 Pro · sprzątanie',
-  'PUDU MT1 · sprzątanie zewnętrzne',
-  'PUDU KettyBot · recepcja',
-  'PUDU BellaBot · gastronomia',
-  'PUDU HolaBot · transport w gastronomii',
-  'Inny',
+const PRODUCT_GROUPS: { label: string; items: string[] }[] = [
+  { label: 'LSI Software', items: ['Cinema', 'LSI Cloud', 'Positive Restaurant', 'Nogasite', 'Pozytyw Hotel', 'Pozytyw Cinema'] },
+  { label: 'Robotyka (Positive Machines / PUDU)', items: [
+    'PUDU T300 · transport 300 kg',
+    'PUDU T600 · transport 600 kg',
+    'PUDU CC1 Pro · sprzątanie',
+    'PUDU MT1 · sprzątanie zewnętrzne',
+    'PUDU KettyBot · recepcja',
+    'PUDU BellaBot · gastronomia',
+    'PUDU HolaBot · transport w gastronomii',
+  ] },
+  { label: 'Inne', items: ['Inny'] },
 ]
 interface ClientData {
   name: string
@@ -241,10 +238,31 @@ export default function WizardPage() {
 
       {step === 2 && (
         <>
-          <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Parametry</h2>
-          <div style={{ marginBottom: 16 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Parametry</h2>
+
+          {/* kontekst klienta — przypomnienie kto i jakiego koloru */}
+          {client.name && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: 20 }}>
+              {logoUrl && <img src={logoUrl} alt="" style={{ height: 22, objectFit: 'contain' }} onError={e => (e.currentTarget.style.display = 'none')} />}
+              <div style={{ flex: 1, fontSize: 13 }}>
+                <span style={{ fontWeight: 600 }}>{client.name}</span>
+                {client.industry && <span style={{ color: 'var(--text-muted)' }}> · {client.industry}</span>}
+              </div>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ width: 14, height: 14, borderRadius: 3, background: accentColor, border: '1px solid rgba(0,0,0,0.08)' }} />
+                <span style={{ fontFamily: 'monospace', fontSize: 11, color: 'var(--text-muted)' }}>{accentColor}</span>
+              </span>
+            </div>
+          )}
+
+          <div style={{ marginBottom: 18 }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Produkt</div>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>{PRODUCTS.map(p => btn(p, product === p, () => setProduct(p)))}</div>
+            {PRODUCT_GROUPS.map(g => (
+              <div key={g.label} style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 6 }}>{g.label}</div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>{g.items.map(p => btn(p, product === p, () => setProduct(p)))}</div>
+              </div>
+            ))}
           </div>
           <div style={{ marginBottom: 16 }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6, display: 'flex', alignItems: 'center' }}>

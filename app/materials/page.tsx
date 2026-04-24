@@ -25,24 +25,30 @@ export default function MaterialsPage() {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ borderBottom: '1px solid var(--border)' }}>
-            {['Nazwa', 'Klient', 'Typ', 'Data', 'Akcje'].map(h => (
+            {['Klient', 'Produkt', 'Typ', 'Nazwa', 'Data', 'Akcje'].map(h => (
               <th key={h} style={{ padding: '8px 12px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {materials.map(m => (
-            <tr key={m.id} style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '10px 12px', fontSize: 13, fontWeight: 500 }}>{m.name}</td>
-              <td style={{ padding: '10px 12px', fontSize: 13, color: 'var(--text-secondary)' }}>{m.client}</td>
-              <td style={{ padding: '10px 12px', fontSize: 11 }}>{TYPE_LABELS[m.type] ?? m.type}</td>
-              <td style={{ padding: '10px 12px', fontSize: 11, color: 'var(--text-muted)' }}>{new Date(m.createdAt).toLocaleDateString('pl')}</td>
-              <td style={{ padding: '10px 12px', display: 'flex', gap: 6 }}>
-                <a href={m.blobUrl} target="_blank" style={{ padding: '3px 8px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: 'var(--text-secondary)' }}>Podgląd</a>
-                <Link href={`/material/${m.id}`} style={{ padding: '3px 8px', background: 'var(--accent)', color: 'white', borderRadius: 4, fontSize: 11, textDecoration: 'none' }}>Edytuj</Link>
-              </td>
-            </tr>
-          ))}
+          {materials.map(m => {
+            const d = new Date(m.createdAt)
+            return (
+              <tr key={m.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                <td style={{ padding: '10px 12px', fontSize: 13, fontWeight: 600 }}>{m.client}</td>
+                <td style={{ padding: '10px 12px', fontSize: 13, color: 'var(--text-secondary)' }}>{m.product || '—'}</td>
+                <td style={{ padding: '10px 12px', fontSize: 11 }}>{TYPE_LABELS[m.type] ?? m.type}</td>
+                <td style={{ padding: '10px 12px', fontSize: 12, color: 'var(--text-secondary)' }}>{m.name}</td>
+                <td style={{ padding: '10px 12px', fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>{d.toLocaleDateString('pl')} · {d.toLocaleTimeString('pl', { hour: '2-digit', minute: '2-digit' })}</td>
+                <td style={{ padding: '10px 12px' }}>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <a href={m.blobUrl} target="_blank" style={{ padding: '3px 8px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: 'var(--text-secondary)' }}>Podgląd</a>
+                    <Link href={`/material/${m.id}`} style={{ padding: '3px 8px', background: 'var(--accent)', color: 'white', borderRadius: 4, fontSize: 11, textDecoration: 'none' }}>Edytuj</Link>
+                  </div>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>
