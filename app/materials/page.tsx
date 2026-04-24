@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { fetchMaterials, Material } from '@/lib/storage'
 
-const TYPE_LABELS: Record<string, string> = { landing: 'Landing Page', presentation: 'Prezentacja', onepager: 'One-pager' }
+const TYPE_LABELS: Record<string, string> = { landing: 'Landing Page', presentation: 'Prezentacja', onepager: 'One-pager', script: 'Skrypt handlowy', email: 'Sekwencja emaili' }
 
 export default function MaterialsPage() {
   const [materials, setMaterials] = useState<Material[]>([])
@@ -14,15 +14,14 @@ export default function MaterialsPage() {
 
   if (!materials.length) return (
     <div style={{ padding: 32, textAlign: 'center', color: 'var(--text-muted)', paddingTop: 100 }}>
-      <div style={{ fontSize: 40, marginBottom: 16 }}>📄</div>
       <div style={{ fontSize: 16, marginBottom: 8 }}>Brak wygenerowanych materiałów</div>
-      <Link href="/chat" style={{ display: 'inline-block', padding: '8px 20px', background: 'var(--text-primary)', color: 'white', borderRadius: 5, textDecoration: 'none', fontSize: 13, fontWeight: 600 }}>⚡ Wygeneruj pierwszy</Link>
+      <Link href="/chat" style={{ display: 'inline-block', padding: '8px 20px', background: 'var(--text-primary)', color: 'white', borderRadius: 5, textDecoration: 'none', fontSize: 13, fontWeight: 600 }}>Wygeneruj pierwszy</Link>
     </div>
   )
 
   return (
     <div style={{ padding: 32, maxWidth: 960, margin: '0 auto' }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 24 }}>📄 Moje materiały</h1>
+      <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 24 }}>Moje materiały</h1>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ borderBottom: '1px solid var(--border)' }}>
@@ -39,8 +38,8 @@ export default function MaterialsPage() {
               <td style={{ padding: '10px 12px', fontSize: 11 }}>{TYPE_LABELS[m.type] ?? m.type}</td>
               <td style={{ padding: '10px 12px', fontSize: 11, color: 'var(--text-muted)' }}>{new Date(m.createdAt).toLocaleDateString('pl')}</td>
               <td style={{ padding: '10px 12px', display: 'flex', gap: 6 }}>
-                <a href={m.blobUrl} target="_blank" style={{ padding: '3px 8px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: 'var(--text-secondary)' }}>👁</a>
-                <Link href={`/material/${m.id}`} style={{ padding: '3px 8px', background: 'var(--accent)', color: 'white', borderRadius: 4, fontSize: 11, textDecoration: 'none' }}>✏️</Link>
+                <a href={m.blobUrl} target="_blank" style={{ padding: '3px 8px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: 'var(--text-secondary)' }}>Podgląd</a>
+                <Link href={`/material/${m.id}`} style={{ padding: '3px 8px', background: 'var(--accent)', color: 'white', borderRadius: 4, fontSize: 11, textDecoration: 'none' }}>Edytuj</Link>
               </td>
             </tr>
           ))}

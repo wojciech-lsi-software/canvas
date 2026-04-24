@@ -68,10 +68,10 @@ export default function MaterialEditor() {
       <div style={{ padding: '8px 16px', borderBottom: '1px solid var(--border)', background: 'var(--bg-sidebar)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{material.name}</div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={copyUrl} style={{ padding: '4px 12px', border: '1px solid var(--border)', borderRadius: 4, background: 'white', fontSize: 11, cursor: 'pointer' }}>🔗 Skopiuj URL</button>
-          <a href={previewUrl} download={`${material.name}.html`} style={{ padding: '4px 12px', border: '1px solid var(--border)', borderRadius: 4, background: 'white', fontSize: 11, textDecoration: 'none', color: 'var(--text-primary)' }}>⬇ Pobierz</a>
+          <button onClick={copyUrl} style={{ padding: '4px 12px', border: '1px solid var(--border)', borderRadius: 4, background: 'white', fontSize: 11, cursor: 'pointer' }}>Skopiuj URL</button>
+          <a href={previewUrl} download={`${material.name}.html`} style={{ padding: '4px 12px', border: '1px solid var(--border)', borderRadius: 4, background: 'white', fontSize: 11, textDecoration: 'none', color: 'var(--text-primary)' }}>Pobierz</a>
           <button onClick={saveToSharePoint} style={{ padding: '4px 12px', border: 'none', borderRadius: 4, background: saved ? 'var(--green)' : 'var(--accent)', color: 'white', fontSize: 11, cursor: 'pointer' }}>
-            {saved ? '✓ SharePoint' : '📤 SharePoint'}
+            {saved ? 'Zapisano' : 'SharePoint'}
           </button>
         </div>
       </div>

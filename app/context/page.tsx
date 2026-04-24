@@ -25,14 +25,14 @@ export default function ContextPage() {
 
   return (
     <div style={{ padding: 32, maxWidth: 640, margin: '0 auto' }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>🔗 Kontekst Growth Hub</h1>
+      <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>Kontekst Growth Hub</h1>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
         <div style={{ width: 8, height: 8, borderRadius: '50%', background: synced ? 'var(--green)' : 'var(--text-muted)' }} />
         <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
           {synced ? `Zsynchronizowano: ${new Date(ctx.synced_at!).toLocaleString('pl')}` : 'Brak synchronizacji'}
         </span>
         <button onClick={syncNow} disabled={syncing} style={{ marginLeft: 'auto', padding: '5px 14px', background: 'var(--text-primary)', color: 'white', border: 'none', borderRadius: 5, fontSize: 11, fontWeight: 600, cursor: syncing ? 'default' : 'pointer' }}>
-          {syncing ? 'Synchronizuję...' : '↺ Synchronizuj teraz'}
+          {syncing ? 'Synchronizuję...' : 'Synchronizuj teraz'}
         </button>
       </div>
 

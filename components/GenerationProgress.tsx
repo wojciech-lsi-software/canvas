@@ -6,7 +6,7 @@ export default function GenerationProgress({ activeStep, progress }: { activeSte
       <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
         {STEPS.map((s, i) => (
           <span key={s} style={{ fontSize: 11, color: i < activeStep ? 'var(--green)' : i === activeStep ? 'var(--accent)' : 'var(--text-muted)', fontWeight: i === activeStep ? 700 : 400 }}>
-            {i < activeStep ? '✓ ' : i === activeStep ? '⟳ ' : ''}{s}
+            {s}
           </span>
         ))}
       </div>

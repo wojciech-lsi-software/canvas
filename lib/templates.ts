@@ -1,7 +1,7 @@
 export interface Template {
   id: string
   name: string
-  type: 'landing' | 'presentation' | 'onepager'
+  type: 'landing' | 'presentation' | 'onepager' | 'script' | 'email'
   product: string
   file: string
 }

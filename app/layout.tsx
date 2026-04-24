@@ -3,15 +3,16 @@ import './globals.css'
 import AppShell from '@/components/AppShell'
 
 export const metadata: Metadata = {
-  title: 'Canvas — LSI Software',
-  icons: {
-    icon: 'https://www.lsisoftware.pl/wp-content/uploads/2020/01/LSI_Software_blue_500px.png',
-  },
+  title: 'Canvas | LSI Software',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pl">
+      <head>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/lsi-favicon.png" sizes="500x500" />
+      </head>
       <body>
         <AppShell>{children}</AppShell>
       </body>

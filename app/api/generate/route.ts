@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { put } from '@vercel/blob'
 import { kv } from '@vercel/kv'
-import { randomUUID } from 'crypto'
 import { anthropic, CLASSIFY_SYSTEM, GENERATE_SYSTEM } from '@/lib/claude'
+
+export const runtime = 'edge'
+export const maxDuration = 300
 
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>
@@ -30,27 +32,55 @@ export async function POST(req: NextRequest) {
   }
 
   // mode === 'generate' — streaming SSE
-  const { type, client, product, focus, logoUrl = '', accentColor = '' } = body as {
+  const { type, client, product, focus, logoUrl = '', accentColor = '', clientContext = '', clientWebsite = '' } = body as {
     type: string
-    client?: { name?: string; industry?: string }
+    client?: { name?: string; industry?: string; description?: string; tagline?: string }
     product: string
     focus: string
     logoUrl?: string
     accentColor?: string
+    clientContext?: string
+    clientWebsite?: string
   }
 
-  const userPrompt = `Wygeneruj ${type === 'landing' ? 'landing page' : type === 'presentation' ? 'prezentację' : 'one-pager'} dla:
-Klient: ${client?.name ?? 'klient'}
-Branża: ${client?.industry ?? ''}
-Produkt: ${product}
-Fokus: ${focus}
-Logo URL: ${logoUrl}
-Kolor akcentu: ${accentColor}
-Język: Polski`
+  const typeLabel: Record<string, string> = {
+    landing: 'landing page',
+    presentation: 'prezentację sprzedażową',
+    onepager: 'one-pager',
+    script: 'skrypt rozmowy handlowej',
+    email: 'sekwencję 3 emaili sprzedażowych',
+  }
+
+  const contextLines = [
+    `Klient: ${client?.name ?? 'klient'}`,
+    `Branża: ${client?.industry ?? ''}`,
+    client?.description ? `Opis klienta: ${client.description}` : '',
+    client?.tagline ? `Hasło klienta: ${client.tagline}` : '',
+    clientWebsite ? `Strona klienta: ${clientWebsite}` : '',
+    `Produkt LSI: ${product}`,
+    `Główny przekaz: ${focus}`,
+    logoUrl ? `Logo klienta (URL): ${logoUrl}` : 'Logo klienta: brak — pomiń element img z logo',
+    `Kolor marki: ${accentColor || '#2383e2'} — użyj jako --accent w CSS`,
+    clientContext ? `Dodatkowy kontekst: ${clientContext}` : '',
+  ].filter(Boolean)
+
+  const userPrompt = `Wygeneruj ${typeLabel[type] ?? type} dla:
+${contextLines.join('\n')}
+Język: Polski
+
+WAŻNE: Użyj koloru ${accentColor || '#2383e2'} jako głównego koloru akcentowego (--accent). ${logoUrl ? `Wstaw logo klienta z URL: ${logoUrl}` : ''} Stwórz materiał NAJWYŻSZEJ jakości — profesjonalny design, konkretne treści, pełna implementacja HTML+CSS.`
+
+  const maxTokensMap: Record<string, number> = {
+    landing: 16000,
+    presentation: 16000,
+    onepager: 10000,
+    script: 8000,
+    email: 8000,
+  }
 
   const stream = await anthropic.messages.stream({
     model: 'claude-sonnet-4-6',
-    max_tokens: 8192,
+    max_tokens: maxTokensMap[type] ?? 12000,
     system: GENERATE_SYSTEM,
     messages: [{ role: 'user', content: userPrompt }],
   })
@@ -78,7 +108,7 @@ Język: Polski`
           }
         }
 
-        const materialId = `mat_${randomUUID()}`
+        const materialId = `mat_${crypto.randomUUID()}`
         const blob = await put(`${materialId}.html`, fullHtml, { access: 'public', contentType: 'text/html' })
         await kv.set(`mm:material:${materialId}`, {
           id: materialId,

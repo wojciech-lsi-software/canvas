@@ -1,4 +1,5 @@
 import { RemixParams } from '@/lib/templates'
+import InfoTip from '@/components/InfoTip'
 
 const PRODUCTS = ['Cinema', 'LSI Cloud', 'Nogasite', 'Inny']
 const COLORS = ['#2383e2', '#0f7b6c', '#9b6700', '#c4320a', '#5b21b6', '#37352f']
@@ -23,25 +24,38 @@ export default function ParamsPanel({ params, onChange, onRegenerate, loading }:
 
   return (
     <div style={{ width: 180, minWidth: 180, background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border)', padding: 10, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
-      {label('Klient')}
-      {field(params.clientName, 'Nazwa klienta', set('clientName'))}
-      {field(params.clientIndustry, 'Branża', set('clientIndustry'))}
-      {label('Produkt')}
+      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
+        Klient
+      </div>
+      {field(params.clientName, 'Nazwa firmy', set('clientName'))}
+      {field(params.clientIndustry, 'Branża (np. Horeca, E-commerce)', set('clientIndustry'))}
+      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
+        Produkt LSI
+      </div>
       <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 10 }}>
         {PRODUCTS.map(p => (
           <button key={p} onClick={() => set('productName')(p)} style={{ padding: '2px 8px', borderRadius: 10, border: `1px solid ${params.productName === p ? 'var(--accent)' : 'var(--border)'}`, background: params.productName === p ? 'var(--accent-bg)' : 'white', color: params.productName === p ? 'var(--accent)' : 'var(--text-secondary)', fontSize: 10, cursor: 'pointer' }}>{p}</button>
         ))}
       </div>
-      {label('Logo URL')}
-      {field(params.logoUrl, 'https://...', set('logoUrl'))}
-      {label('Fokus')}
-      {field(params.focus, 'np. rezerwacje SPA', set('focus'))}
-      {label('Kolor akcentu')}
+      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
+        Logo klienta (URL)
+        <InfoTip text="Adres URL do pliku z logo klienta. Zostanie wstawione do materiału. Zostaw puste jeśli nie masz." />
+      </div>
+      {field(params.logoUrl, 'https://klient.pl/logo.png', set('logoUrl'))}
+      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
+        Główny przekaz
+        <InfoTip text="O czym ma być materiał — co chcesz, żeby klient zapamiętał. Np. 'automatyzacja rezerwacji w hotelu' albo 'migracja sklepu do LSI Cloud'." />
+      </div>
+      {field(params.focus, 'np. automatyzacja rezerwacji w hotelu', set('focus'))}
+      <div style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4, display: 'flex', alignItems: 'center' }}>
+        Kolor marki klienta
+        <InfoTip text="Wybierz kolor zbliżony do barw klienta. Zostanie użyty jako kolor przewodni materiału." />
+      </div>
       <div style={{ display: 'flex', gap: 5, marginBottom: 12 }}>
         {COLORS.map(c => <button key={c} onClick={() => set('accentColor')(c)} style={{ width: 20, height: 20, borderRadius: 3, background: c, border: `2px solid ${params.accentColor === c ? 'var(--text-primary)' : 'transparent'}`, cursor: 'pointer' }} />)}
       </div>
       <button onClick={onRegenerate} disabled={loading} style={{ width: '100%', padding: '7px 0', background: loading ? 'var(--border)' : 'var(--accent)', color: 'white', border: 'none', borderRadius: 5, fontSize: 11, fontWeight: 600, cursor: loading ? 'default' : 'pointer' }}>
-        {loading ? '⟳ Regeneruję...' : '↺ Regeneruj'}
+        {loading ? 'Regeneruję...' : 'Regeneruj'}
       </button>
     </div>
   )
