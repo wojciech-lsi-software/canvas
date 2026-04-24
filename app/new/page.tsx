@@ -31,8 +31,6 @@ const PRODUCTS = [
   'PUDU HolaBot · transport w gastronomii',
   'Inny',
 ]
-const COLORS = ['#2383e2', '#0f7b6c', '#9b6700', '#c4320a', '#5b21b6', '#37352f']
-
 interface ClientData {
   name: string
   industry: string
@@ -185,56 +183,58 @@ export default function WizardPage() {
 
       {step === 1 && (
         <>
-          <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>Dla kogo?</h2>
+          <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Dla kogo?</h2>
+          <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 20 }}>Wklej adres strony klienta, a AI wyciągnie nazwę, branżę, logo i kolor marki.</p>
 
-          {/* Website analysis */}
-          <div style={{ marginBottom: 20, background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 8, padding: '14px 16px' }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
-              Strona klienta — automatyczna analiza
-              <InfoTip text="Podaj adres strony klienta, a AI wyciągnie nazwę firmy, branżę, logo i kolory marki automatycznie." />
-            </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <input
-                value={clientWebsite}
-                onChange={e => setClientWebsite(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') analyzeWebsite() }}
-                placeholder="https://klient.pl"
-                style={{ flex: 1, padding: '7px 12px', border: '1px solid var(--border)', borderRadius: 5, fontSize: 13, outline: 'none', background: 'white' }}
-              />
-              <button
-                onClick={analyzeWebsite}
-                disabled={!clientWebsite.trim() || analyzing}
-                style={{ padding: '7px 16px', background: clientWebsite.trim() && !analyzing ? 'var(--accent)' : 'var(--border)', color: 'white', border: 'none', borderRadius: 5, fontSize: 12, fontWeight: 600, cursor: clientWebsite.trim() && !analyzing ? 'pointer' : 'default', whiteSpace: 'nowrap' }}
-              >
-                {analyzing ? 'Analizuję...' : 'Analizuj'}
-              </button>
-            </div>
-            {analyzeError && <div style={{ fontSize: 11, color: '#c4320a', marginTop: 6 }}>{analyzeError}</div>}
-            {client.description && (
-              <div style={{ marginTop: 10, fontSize: 12, color: 'var(--text-secondary)', background: 'white', borderRadius: 5, padding: '8px 10px', border: '1px solid var(--border)' }}>
-                <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{client.name}</span>
-                {client.industry && <span style={{ color: 'var(--text-muted)' }}> · {client.industry}</span>}
-                <br />{client.description}
-              </div>
-            )}
+          <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+            <input
+              value={clientWebsite}
+              onChange={e => setClientWebsite(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') analyzeWebsite() }}
+              placeholder="klient.pl"
+              autoFocus
+              style={{ flex: 1, padding: '12px 16px', border: '2px solid var(--border)', borderRadius: 6, fontSize: 15, outline: 'none', background: 'white' }}
+            />
+            <button
+              onClick={analyzeWebsite}
+              disabled={!clientWebsite.trim() || analyzing}
+              style={{ padding: '12px 22px', background: clientWebsite.trim() && !analyzing ? 'var(--accent)' : 'var(--border)', color: 'white', border: 'none', borderRadius: 6, fontSize: 14, fontWeight: 600, cursor: clientWebsite.trim() && !analyzing ? 'pointer' : 'default', whiteSpace: 'nowrap' }}
+            >
+              {analyzing ? 'Analizuję...' : 'Analizuj'}
+            </button>
           </div>
+          {analyzeError && <div style={{ fontSize: 12, color: '#c4320a', marginBottom: 10 }}>{analyzeError}</div>}
 
           {ctx.leads?.length ? (
-            <>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Z Growth Hub</div>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Lub z Growth Hub</div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {ctx.leads.map(l => btn(l.name, client.name === l.name, () => setClient(c => ({ ...c, name: l.name, industry: l.industry ?? '' }))))}
               </div>
-            </>
+            </div>
           ) : null}
 
-          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Dane klienta</div>
-          <input value={client.name} onChange={e => setClient(c => ({ ...c, name: e.target.value }))} placeholder="Nazwa klienta" style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border)', borderRadius: 5, fontSize: 13, marginBottom: 8, outline: 'none', boxSizing: 'border-box' }} />
-          <input value={client.industry} onChange={e => setClient(c => ({ ...c, industry: e.target.value }))} placeholder="Branża (np. Horeca, E-commerce)" style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border)', borderRadius: 5, fontSize: 13, marginBottom: 20, outline: 'none', boxSizing: 'border-box' }} />
+          {(client.name || client.description) && (
+            <div style={{ marginTop: 20, background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 8, padding: 16 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>Dane klienta {client.description && '(zaciągnięte przez AI — możesz edytować)'}</span>
+                {client.primaryColor && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, textTransform: 'none', letterSpacing: 0, fontWeight: 400 }}>
+                    <span style={{ width: 14, height: 14, borderRadius: 3, background: client.primaryColor, border: '1px solid rgba(0,0,0,0.1)' }} />
+                    <span style={{ fontFamily: 'monospace', fontSize: 11 }}>{client.primaryColor}</span>
+                  </span>
+                )}
+              </div>
+              <input value={client.name} onChange={e => setClient(c => ({ ...c, name: e.target.value }))} placeholder="Nazwa klienta" style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border)', borderRadius: 5, fontSize: 13, marginBottom: 8, outline: 'none', boxSizing: 'border-box', background: 'white' }} />
+              <input value={client.industry} onChange={e => setClient(c => ({ ...c, industry: e.target.value }))} placeholder="Branża" style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border)', borderRadius: 5, fontSize: 13, marginBottom: 8, outline: 'none', boxSizing: 'border-box', background: 'white' }} />
+              <textarea value={client.description} onChange={e => setClient(c => ({ ...c, description: e.target.value }))} placeholder="Czym zajmuje się firma" rows={2} style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border)', borderRadius: 5, fontSize: 13, outline: 'none', boxSizing: 'border-box', background: 'white', resize: 'vertical', fontFamily: 'inherit' }} />
+              {client.logoUrl && <img src={client.logoUrl} alt="" style={{ height: 28, objectFit: 'contain', marginTop: 10 }} onError={e => (e.currentTarget.style.display = 'none')} />}
+            </div>
+          )}
 
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
             <button onClick={() => setStep(0)} style={{ padding: '8px 20px', border: '1px solid var(--border)', borderRadius: 5, background: 'white', cursor: 'pointer', fontSize: 13 }}>← Wróć</button>
-            <button onClick={() => setStep(2)} disabled={!client.name} style={{ flex: 1, padding: '8px 20px', background: client.name ? 'var(--text-primary)' : 'var(--border)', color: 'white', border: 'none', borderRadius: 5, cursor: client.name ? 'pointer' : 'default', fontSize: 13, fontWeight: 600 }}>Dalej →</button>
+            <button onClick={() => { if (client.primaryColor) setAccentColor(client.primaryColor); if (client.logoUrl) setLogoUrl(client.logoUrl); setStep(2) }} disabled={!client.name} style={{ flex: 1, padding: '8px 20px', background: client.name ? 'var(--text-primary)' : 'var(--border)', color: 'white', border: 'none', borderRadius: 5, cursor: client.name ? 'pointer' : 'default', fontSize: 13, fontWeight: 600 }}>Dalej →</button>
           </div>
         </>
       )}
@@ -270,17 +270,26 @@ export default function WizardPage() {
           <div style={{ marginBottom: 16 }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6, display: 'flex', alignItems: 'center' }}>
               Kolor marki klienta
-              <InfoTip text="Wybierz kolor zbliżony do barw klienta. Zostanie użyty jako kolor przewodni materiału." />
+              <InfoTip text="Kolor wyciągnięty ze strony klienta przez AI. Możesz go podmienić, jeśli chcesz zaakcentować coś innego." />
             </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              {COLORS.map(c => <button key={c} onClick={() => setAccentColor(c)} style={{ width: 28, height: 28, borderRadius: 4, background: c, border: `2px solid ${accentColor === c ? 'var(--text-primary)' : 'transparent'}`, cursor: 'pointer' }} />)}
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
               <input
                 type="color"
                 value={accentColor}
                 onChange={e => setAccentColor(e.target.value)}
-                style={{ width: 28, height: 28, borderRadius: 4, border: '1px solid var(--border)', cursor: 'pointer', padding: 2 }}
-                title="Własny kolor"
+                style={{ width: 44, height: 36, borderRadius: 5, border: '1px solid var(--border)', cursor: 'pointer', padding: 2, background: 'white' }}
               />
+              <input
+                type="text"
+                value={accentColor}
+                onChange={e => { const v = e.target.value; if (/^#[0-9a-fA-F]{0,6}$/.test(v)) setAccentColor(v) }}
+                style={{ width: 100, padding: '8px 10px', border: '1px solid var(--border)', borderRadius: 5, fontSize: 13, fontFamily: 'monospace', outline: 'none' }}
+              />
+              {client.primaryColor && client.primaryColor !== accentColor && (
+                <button onClick={() => setAccentColor(client.primaryColor!)} style={{ padding: '6px 12px', border: '1px solid var(--border)', borderRadius: 5, background: 'white', fontSize: 12, cursor: 'pointer', color: 'var(--text-secondary)' }}>
+                  Przywróć kolor AI
+                </button>
+              )}
             </div>
           </div>
           <div style={{ marginBottom: 20 }}>
