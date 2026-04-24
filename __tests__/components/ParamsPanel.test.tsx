@@ -22,3 +22,9 @@ test('wywołuje onRegenerate po kliknięciu przycisku', () => {
   fireEvent.click(screen.getByRole('button', { name: /regeneruj/i }))
   expect(onRegenerate).toHaveBeenCalled()
 })
+
+test('przycisk jest disabled gdy loading=true', () => {
+  render(<ParamsPanel params={PARAMS} onChange={jest.fn()} onRegenerate={jest.fn()} loading={true} />)
+  const btn = screen.getByRole('button', { name: /regeneruj/i })
+  expect(btn).toBeDisabled()
+})

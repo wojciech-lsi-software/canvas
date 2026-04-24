@@ -16,25 +16,34 @@ export default function MaterialEditor() {
   const [saved, setSaved] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/materials?id=${id}`).then(r => r.json()).then((m: Material) => {
-      if (!m) return
-      setMaterial(m)
-      setPreviewUrl(m.blobUrl)
-      setParams(prev => ({ ...prev, clientName: m.client, productName: m.product }))
-    })
+    fetch(`/api/materials?id=${id}`)
+      .then(r => { if (!r.ok) throw new Error('not found'); return r.json() })
+      .then((m: Material) => {
+        if (!m) return
+        setMaterial(m)
+        setPreviewUrl(m.blobUrl)
+        setParams(prev => ({ ...prev, clientName: m.client, productName: m.product }))
+      })
+      .catch(() => setMaterial(null))
   }, [id])
 
   async function regenerate() {
     if (!material?.templateId) return
     setLoading(true)
-    const res = await fetch('/api/remix', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ templateId: material.templateId, params }),
-    })
-    const data = await res.json()
-    setPreviewUrl(data.url)
-    setLoading(false)
+    try {
+      const res = await fetch('/api/remix', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ templateId: material.templateId, params }),
+      })
+      if (!res.ok) return
+      const data = await res.json()
+      if (data.url) setPreviewUrl(data.url)
+    } catch {
+      // network error — loading resets, preview unchanged
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function saveToSharePoint() {
@@ -49,10 +58,10 @@ export default function MaterialEditor() {
   }
 
   function copyUrl() {
-    navigator.clipboard.writeText(previewUrl)
+    navigator.clipboard.writeText(previewUrl).catch(() => {})
   }
 
-  if (!material) return <div style={{ padding: 32, color: 'var(--text-muted)' }}>Ładowanie...</div>
+  if (!material) return <div style={{ padding: 32, color: 'var(--text-muted)' }}>Ładowanie materiału...</div>
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
