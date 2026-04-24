@@ -11,6 +11,7 @@ const mockKv: Record<string, unknown> = {}
 jest.mock('@vercel/kv', () => ({
   kv: {
     set: jest.fn((key: string, val: unknown) => { mockKv[key] = val }),
+    get: jest.fn((key: string) => mockKv[key] ?? null),
     keys: jest.fn((pattern: string) => Object.keys(mockKv).filter(k => k.startsWith('mm:material:'))),
     mget: jest.fn((...keys: string[]) => keys.map((k: string) => mockKv[k] ?? null)),
   },
@@ -22,6 +23,13 @@ import { kv } from '@vercel/kv'
 const MATERIAL = {
   id: 'mat_1', name: 'Test', type: 'landing', client: 'Test Co',
   product: 'Cinema', blobUrl: 'https://blob.test/file.html', createdAt: '2026-04-23T00:00:00Z',
+}
+
+function makeGetRequest(url: string) {
+  const parsed = new URL(url)
+  return {
+    nextUrl: { searchParams: parsed.searchParams },
+  } as unknown as import('next/server').NextRequest
 }
 
 beforeEach(() => {
@@ -52,7 +60,7 @@ test('POST zwraca 400 gdy brak id', async () => {
 
 test('GET zwraca listę materiałów z danymi', async () => {
   mockKv['mm:material:mat_1'] = MATERIAL
-  const res = await GET()
+  const res = await GET(makeGetRequest('http://localhost/api/materials'))
   const data = await res.json()
   expect(Array.isArray(data)).toBe(true)
   expect(data).toHaveLength(1)
@@ -60,7 +68,20 @@ test('GET zwraca listę materiałów z danymi', async () => {
 })
 
 test('GET zwraca pustą tablicę gdy brak materiałów', async () => {
-  const res = await GET()
+  const res = await GET(makeGetRequest('http://localhost/api/materials'))
   const data = await res.json()
   expect(data).toEqual([])
+})
+
+test('GET z ?id= zwraca pojedynczy materiał', async () => {
+  mockKv['mm:material:mat_1'] = MATERIAL
+  const res = await GET(makeGetRequest('http://localhost/api/materials?id=mat_1'))
+  const data = await res.json()
+  expect(data).toMatchObject(MATERIAL)
+})
+
+test('GET z ?id= zwraca null gdy brak materiału', async () => {
+  const res = await GET(makeGetRequest('http://localhost/api/materials?id=nieistniejacy'))
+  const data = await res.json()
+  expect(data).toBeNull()
 })

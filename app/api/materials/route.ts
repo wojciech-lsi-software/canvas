@@ -1,8 +1,14 @@
 import { kv } from '@vercel/kv'
 import { NextRequest, NextResponse } from 'next/server'
+import type { Material } from '@/lib/storage'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const id = req.nextUrl.searchParams.get('id')
+    if (id) {
+      const material = await kv.get<Material>(`mm:material:${id}`)
+      return NextResponse.json(material ?? null)
+    }
     const keys = await kv.keys('mm:material:*')
     if (!keys.length) return NextResponse.json([])
     const materials = await kv.mget(...keys)
