@@ -5,7 +5,7 @@ import ParamsPanel from '@/components/ParamsPanel'
 import { RemixParams } from '@/lib/templates'
 import { Material } from '@/lib/storage'
 
-const DEFAULT_PARAMS: RemixParams = { clientName: '', clientIndustry: '', productName: 'Cinema', logoUrl: '', accentColor: '#2383e2', focus: '' }
+const DEFAULT_PARAMS: RemixParams = { clientName: '', clientIndustry: '', productName: 'POSitive Cinema', logoUrl: '', accentColor: '#2383e2', focus: '' }
 
 export default function MaterialEditor() {
   const { id } = useParams<{ id: string }>()

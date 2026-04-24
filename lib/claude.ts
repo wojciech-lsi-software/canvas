@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 export const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export const CLASSIFY_SYSTEM = `Jesteś klasyfikatorem intencji w generatorze materiałów marketingowych LSI Software.
-Dostępne szablony: cinema-hotel-base, cinema-generic-base, lsicloud-base, nogasite-base, pitch-generic, onepager-generic.
+Dostępne szablony: cinema-hotel-base, cinema-generic-base, lsicloud-base, pitch-generic, onepager-generic.
 Zwróć TYLKO JSON bez żadnego tekstu poza nim:
 { "intent": "swap" | "generate", "detectedTemplate": string | null, "detectedClient": string | null, "detectedChanges": string[] }
 intent="swap" gdy użytkownik chce podmienić parametry istniejącego szablonu (klient, logo, kolor).

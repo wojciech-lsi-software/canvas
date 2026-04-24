@@ -16,10 +16,9 @@ export interface RemixParams {
 }
 
 export const TEMPLATES: Template[] = [
-  { id: 'cinema-hotel-base', name: 'Cinema dla hoteli', type: 'landing', product: 'Cinema', file: 'cinema-hotel.html' },
-  { id: 'cinema-generic-base', name: 'Cinema — generyczny', type: 'landing', product: 'Cinema', file: 'cinema-generic.html' },
+  { id: 'cinema-hotel-base', name: 'POSitive Cinema dla hoteli', type: 'landing', product: 'POSitive Cinema', file: 'cinema-hotel.html' },
+  { id: 'cinema-generic-base', name: 'POSitive Cinema — generyczny', type: 'landing', product: 'POSitive Cinema', file: 'cinema-generic.html' },
   { id: 'lsicloud-base', name: 'LSI Cloud', type: 'landing', product: 'LSI Cloud', file: 'lsicloud.html' },
-  { id: 'nogasite-base', name: 'Nogasite E-commerce', type: 'landing', product: 'Nogasite', file: 'nogasite.html' },
   { id: 'pitch-generic', name: 'Prezentacja sprzedażowa', type: 'presentation', product: 'Generic', file: 'pitch-generic.html' },
   { id: 'onepager-generic', name: 'One-pager', type: 'onepager', product: 'Generic', file: 'onepager-generic.html' },
 ]

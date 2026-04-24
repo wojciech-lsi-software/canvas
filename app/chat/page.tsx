@@ -104,7 +104,7 @@ export default function ChatPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         templateId: intent?.detectedTemplate ?? 'cinema-hotel-base',
-        params: { clientName: intent?.detectedClient ?? '', productName: 'Cinema', accentColor: '#2383e2', logoUrl: '', clientIndustry: '', focus: userMsg },
+        params: { clientName: intent?.detectedClient ?? '', productName: 'POSitive Cinema', accentColor: '#2383e2', logoUrl: '', clientIndustry: '', focus: userMsg },
       }),
     })
     const data = await res.json()

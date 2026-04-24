@@ -16,15 +16,44 @@ const TYPES = [
 ]
 
 const PRODUCT_GROUPS: { label: string; items: string[] }[] = [
-  { label: 'LSI Software', items: ['Cinema', 'LSI Cloud', 'Positive Restaurant', 'Nogasite', 'Pozytyw Hotel', 'Pozytyw Cinema'] },
-  { label: 'Robotyka (Positive Machines / PUDU)', items: [
+  { label: 'LSI Software', items: [
+    'POSitive Restaurant',
+    'POSitive Cinema',
+    'POSitive Hotel',
+    'POSitive Retail',
+    'POSitive Beauty',
+    'POSitive ESOK',
+    'LSI Cloud',
+    'Gastro.pl',
+    'Roomio',
+    'be in touch',
+  ] },
+  { label: 'Positive Machines — dostawcze / gastro', items: [
+    'PUDU BellaBot Pro · kelner 18,5"',
+    'PUDU BellaBot · kelner',
+    'PUDU KettyBot · recepcja / marketing',
+    'PUDU HolaBot · cargo',
+    'PUDU Pudubot2 · uniwersalny',
+  ] },
+  { label: 'Positive Machines — sprzątanie', items: [
+    'PUDU CC1 Pro · sprzątanie AI',
+    'PUDU CC1 · sprzątanie',
+    'PUDU SH1 · szorowarka',
+    'MAXHUB C3 · sprzątanie komercyjne',
+  ] },
+  { label: 'Positive Machines — zamiatanie', items: [
+    'PUDU MT1 · zamiatarka AI',
+    'PUDU MT1 Vac · zamiatarka z odkurzaczem',
+    'PUDU MT1 Max · parkingi 3D',
+  ] },
+  { label: 'Positive Machines — transport / logistyka', items: [
     'PUDU T300 · transport 300 kg',
     'PUDU T600 · transport 600 kg',
-    'PUDU CC1 Pro · sprzątanie',
-    'PUDU MT1 · sprzątanie zewnętrzne',
-    'PUDU KettyBot · recepcja',
-    'PUDU BellaBot · gastronomia',
-    'PUDU HolaBot · transport w gastronomii',
+    'PUDU T600 AGV',
+  ] },
+  { label: 'Positive Machines — inne', items: [
+    'PUDU D9 · humanoid',
+    'TRON 1 · robot kroczący',
   ] },
   { label: 'Inne', items: ['Inny'] },
 ]
