@@ -4,502 +4,694 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Positive Machines dla Panattoni Europe</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --navy:#050D1E;
-  --navy2:#0B1830;
-  --blue:#2563EB;
-  --blue-dim:#1D4ED8;
-  --blue-pale:#EFF6FF;
-  --blue-border:#BFDBFE;
-  --text:#0F172A;
-  --muted:#64748B;
-  --border:#E2E8F0;
-  --bg:#F8FAFC;
+  --paper:#FAF7F1;
+  --paper-2:#F2EEE2;
+  --ink:#0B1428;
+  --ink-80:#1F2937;
+  --ink-60:#4B5563;
+  --ink-40:#9CA3AF;
+  --ink-20:#D1D5DB;
+  --accent:#1E40AF;
+  --accent-soft:#DBEAFE;
+  --rule:#E7E2D4;
+  --rule-dark:rgba(255,255,255,.12);
 }
 
 html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;background:#fff;color:var(--text)}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);color:var(--ink);
+  font-feature-settings:"ss01","cv11";
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
 
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(5,13,30,.96);backdrop-filter:blur(12px);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 52px;height:54px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.pm-logo{display:flex;align-items:center;gap:10px}
-.pm-mark{
-  width:30px;height:30px;background:var(--blue);border-radius:7px;
-  flex-shrink:0;display:flex;align-items:center;justify-content:center;
-}
-.pm-wordmark{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:14px;font-weight:800;color:#fff;letter-spacing:-.3px;
-}
-.nav-context{font-size:11px;color:rgba(255,255,255,.3);font-weight:500;letter-spacing:.3px}
+.serif{font-family:'Fraunces',serif;font-optical-sizing:auto}
+.mono{font-family:'JetBrains Mono',monospace}
 
 /* PDF BUTTON */
-.pdf-btn{
-  position:fixed;bottom:24px;right:24px;z-index:200;
-  background:var(--blue);color:#fff;border:none;border-radius:8px;
+.pdf{
+  position:fixed;bottom:22px;right:22px;z-index:50;
+  background:var(--ink);color:var(--paper);border:none;border-radius:999px;
   padding:10px 18px;font-family:'Inter',sans-serif;
-  font-size:12px;font-weight:600;cursor:pointer;
-  display:flex;align-items:center;gap:7px;
-  box-shadow:0 4px 16px rgba(37,99,235,.35);
-  transition:background .15s;
+  font-size:12px;font-weight:600;letter-spacing:.2px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 6px 24px rgba(11,20,40,.18);
+  transition:transform .15s,background .15s;
 }
-.pdf-btn:hover{background:var(--blue-dim)}
+.pdf:hover{background:#000;transform:translateY(-1px)}
+.pdf svg{opacity:.8}
 
-/* SLIDES */
+/* SLIDE SHELL */
 .slide{
-  min-height:100svh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:94px 80px 72px;
+  min-height:100svh;position:relative;
+  padding:72px 96px 80px;
+  display:flex;flex-direction:column;
   scroll-snap-align:start;
   page-break-after:always;
+  overflow:hidden;
 }
-.s-dark{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff}
-.s-white{background:#fff}
-.s-gray{background:var(--bg)}
+.slide.paper{background:var(--paper)}
+.slide.ink{background:var(--ink);color:var(--paper)}
+.slide.cream{background:var(--paper-2)}
+
+/* HEADER INLINE PER SLIDE */
+.head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:24px;margin-bottom:0;
+  border-bottom:1px solid var(--rule);
+}
+.slide.ink .head{border-bottom-color:var(--rule-dark)}
+.wordmark{
+  font-family:'Fraunces',serif;font-weight:700;font-size:15px;
+  letter-spacing:-.3px;color:var(--ink);
+}
+.slide.ink .wordmark{color:var(--paper)}
+.wordmark em{font-style:italic;font-weight:500;color:var(--accent)}
+.slide.ink .wordmark em{color:#93C5FD}
+.meta{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--ink-40);font-weight:500;
+}
+.slide.ink .meta{color:rgba(255,255,255,.35)}
+
+/* BODY */
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0}
 
 /* EYEBROW */
 .eyebrow{
-  display:inline-block;
-  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--blue);margin-bottom:14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:24px;display:inline-block;
 }
-.eyebrow.dim{color:rgba(255,255,255,.35)}
+.slide.ink .eyebrow{color:#93C5FD}
 
 /* HEADINGS */
 h1{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:clamp(46px,6vw,78px);font-weight:900;line-height:1.0;
-  letter-spacing:-2.5px;color:#fff;margin-bottom:20px;
+  font-family:'Fraunces',serif;
+  font-size:clamp(56px,7.5vw,112px);font-weight:800;
+  letter-spacing:-3px;line-height:.95;
+  color:var(--ink);margin-bottom:28px;
 }
-h1 em{font-style:normal;color:#93C5FD}
+.slide.ink h1{color:var(--paper)}
+h1 em{font-style:italic;font-weight:500;color:var(--accent)}
+.slide.ink h1 em{color:#93C5FD}
+
 h2{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:clamp(30px,3.8vw,50px);font-weight:800;line-height:1.05;
-  letter-spacing:-1.5px;margin-bottom:12px;
+  font-family:'Fraunces',serif;
+  font-size:clamp(40px,5vw,68px);font-weight:700;
+  letter-spacing:-2px;line-height:1.02;
+  margin-bottom:20px;
 }
-h2.w{color:#fff}
 
-.lead{font-size:16px;line-height:1.7;color:var(--muted);max-width:600px;margin-bottom:44px}
-.lead.w{color:rgba(255,255,255,.5)}
-
-/* SLIDE 1 — COVER */
-.cover-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);
-  border-radius:20px;padding:5px 14px;
-  color:#93C5FD;font-size:11px;font-weight:600;letter-spacing:.3px;
-  margin-bottom:28px;
+.kicker{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+  font-size:22px;color:var(--ink-60);line-height:1.5;
+  max-width:640px;margin-bottom:48px;
 }
+.slide.ink .kicker{color:rgba(255,255,255,.6)}
+
+p.lead{
+  font-size:17px;line-height:1.7;color:var(--ink-60);
+  max-width:620px;margin-bottom:48px;font-weight:400;
+}
+.slide.ink p.lead{color:rgba(255,255,255,.58)}
+
+/* =============== SLIDE 1 — COVER =============== */
+.cover-body{
+  flex:1;display:grid;grid-template-columns:1.2fr .8fr;gap:80px;
+  align-items:center;padding:40px 0 0;
+}
+.cover-art{
+  position:relative;aspect-ratio:1/1;width:100%;max-width:520px;
+  margin-left:auto;
+}
+.cover-art svg{width:100%;height:100%;display:block}
+
 .cover-footer{
-  display:flex;gap:28px;flex-wrap:wrap;
-  border-top:1px solid rgba(255,255,255,.07);padding-top:22px;margin-top:32px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:40px;
+  padding-top:24px;border-top:1px solid var(--rule);
 }
-.cf{font-size:11px;color:rgba(255,255,255,.3);font-weight:500}
-.cf strong{color:rgba(255,255,255,.55);font-weight:600}
+.cf-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-40);
+  margin-bottom:6px;
+}
+.cf-value{
+  font-family:'Fraunces',serif;font-size:15px;font-weight:600;
+  color:var(--ink);letter-spacing:-.2px;line-height:1.3;
+}
 
-/* SLIDE 2 — PANATTONI + CHALLENGES */
-.two-col{display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:start}
+/* =============== SLIDE 2 — PANATTONI =============== */
+.two-col{display:grid;grid-template-columns:1.3fr 1fr;gap:80px;align-items:flex-start}
 
-.facts{display:flex;flex-direction:column}
-.fact{padding:18px 0;border-bottom:1px solid var(--border)}
-.fact:first-child{border-top:1px solid var(--border)}
-.fn{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:36px;font-weight:900;color:var(--blue);
-  letter-spacing:-2px;line-height:1;
+.panattoni-num{
+  display:flex;align-items:baseline;gap:16px;
+  padding:28px 0;border-bottom:1px solid var(--rule);
 }
-.fl{font-size:12px;color:var(--muted);font-weight:500;margin-top:3px}
+.panattoni-num:first-of-type{border-top:1px solid var(--rule)}
+.pn-big{
+  font-family:'Fraunces',serif;font-weight:700;
+  font-size:72px;letter-spacing:-3px;line-height:1;
+  color:var(--ink);flex-shrink:0;min-width:140px;
+}
+.pn-big em{font-style:italic;font-weight:500;color:var(--accent);font-size:42px;margin-right:4px}
+.pn-label{
+  font-size:15px;color:var(--ink-60);line-height:1.5;
+  padding-bottom:8px;font-weight:400;
+}
 
-.challenges{display:flex;flex-direction:column;gap:14px}
-.ch{
-  display:flex;gap:18px;align-items:flex-start;
-  padding:18px 22px;
-  background:var(--bg);border:1px solid var(--border);border-radius:12px;
+.challenge-list{display:flex;flex-direction:column;gap:32px;margin-top:8px}
+.challenge-item{display:grid;grid-template-columns:40px 1fr;gap:20px;align-items:flex-start}
+.ci-num{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+  font-size:22px;color:var(--accent);line-height:1;padding-top:4px;
 }
-.chn{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:22px;font-weight:900;color:var(--border);
-  line-height:1;flex-shrink:0;width:28px;
+.ci-title{
+  font-family:'Fraunces',serif;font-weight:700;font-size:22px;
+  letter-spacing:-.5px;line-height:1.2;margin-bottom:8px;color:var(--ink);
 }
-.cht{font-size:14px;font-weight:700;margin-bottom:4px}
-.chb{font-size:13px;color:var(--muted);line-height:1.55}
+.ci-body{font-size:14px;color:var(--ink-60);line-height:1.65;font-weight:400}
 
-/* SLIDE 3 — ABOUT PM */
-.stats-row{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border:1px solid rgba(255,255,255,.08);border-radius:14px;
-  overflow:hidden;margin-bottom:32px;
+/* =============== SLIDE 3 — POSITIVE MACHINES =============== */
+.pm-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  margin-top:16px;margin-bottom:40px;
+  border-top:1px solid var(--rule-dark);
+  border-bottom:1px solid var(--rule-dark);
 }
-.stat{
-  padding:28px 22px;text-align:center;
-  border-right:1px solid rgba(255,255,255,.08);
+.pm-stat{
+  padding:36px 24px;text-align:left;
+  border-right:1px solid var(--rule-dark);
 }
-.stat:last-child{border-right:none}
-.sn{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:42px;font-weight:900;color:#93C5FD;
-  letter-spacing:-2px;line-height:1;margin-bottom:8px;
+.pm-stat:last-child{border-right:none}
+.ps-num{
+  font-family:'Fraunces',serif;font-weight:700;
+  font-size:76px;letter-spacing:-3px;line-height:1;
+  color:var(--paper);margin-bottom:14px;
 }
-.sl{font-size:11px;color:rgba(255,255,255,.4);line-height:1.45;font-weight:500}
+.ps-num em{font-style:italic;color:#93C5FD;font-weight:500}
+.ps-label{
+  font-size:13px;color:rgba(255,255,255,.55);line-height:1.5;
+  font-weight:400;
+}
 
-.awards{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.award{
-  border:1px solid rgba(255,255,255,.12);border-radius:8px;
-  padding:9px 14px;
-  font-size:12px;font-weight:600;color:rgba(255,255,255,.75);line-height:1.35;
+.awards-row{display:flex;gap:40px;flex-wrap:wrap;padding-top:24px}
+.award{max-width:280px}
+.aw-name{
+  font-family:'Fraunces',serif;font-weight:600;font-size:16px;
+  color:var(--paper);line-height:1.35;margin-bottom:4px;
 }
-.award span{display:block;font-size:10px;color:rgba(255,255,255,.3);font-weight:400;margin-top:2px}
-.footnote{font-size:11px;color:rgba(255,255,255,.2)}
+.aw-sub{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;
+}
+.fn-note{
+  font-size:12px;color:rgba(255,255,255,.28);
+  margin-top:36px;font-style:italic;
+}
 
-/* SLIDE 4 — PRODUCTS */
-.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.prod-card{
-  background:#fff;border:1px solid var(--border);border-radius:14px;
-  padding:22px;display:flex;flex-direction:column;
+/* =============== SLIDE 4 — PORTFOLIO =============== */
+.portfolio-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border-top:1px solid var(--rule);
 }
-.prod-icon-wrap{
-  height:72px;background:var(--bg);border-radius:8px;
+.product{
+  padding:44px 36px 36px 0;
+  border-right:1px solid var(--rule);
+  display:flex;flex-direction:column;
+}
+.product:last-child{border-right:none;padding-right:0}
+.product:not(:first-child){padding-left:36px}
+.product-visual{
+  aspect-ratio:4/3;background:var(--paper-2);
+  border-radius:4px;margin-bottom:28px;
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:16px;flex-shrink:0;
+  overflow:hidden;
 }
-.prod-cat{
-  font-size:10px;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--blue);margin-bottom:10px;
+.product-visual svg{width:70%;height:70%;display:block}
+.product-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:10px;
 }
-.prod-name{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:17px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px;
+.product-name{
+  font-family:'Fraunces',serif;font-weight:700;font-size:28px;
+  letter-spacing:-1px;line-height:1.05;margin-bottom:12px;color:var(--ink);
 }
-.prod-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;flex:1}
-.prod-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
-.tag{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:4px;font-size:11px;font-weight:600;padding:2px 8px;
+.product-desc{
+  font-size:14px;color:var(--ink-60);line-height:1.6;
+  margin-bottom:20px;font-weight:400;flex:1;
 }
-.prod-price{font-size:12px;font-weight:700;color:var(--blue)}
-
-/* SLIDE 5 — COOPERATION */
-.coop-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:0}
-.coop-card{border:1.5px solid var(--border);border-radius:14px;padding:26px}
-.coop-card.featured{border-color:var(--blue);background:var(--blue-pale)}
-.rec-badge{
-  display:inline-block;background:var(--blue);color:#fff;
-  font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  padding:3px 10px;border-radius:20px;margin-bottom:12px;
+.product-specs{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--ink-40);line-height:1.8;margin-bottom:16px;
+  letter-spacing:.3px;
 }
-.coop-title{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:18px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px;
-}
-.coop-body{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:18px}
-.bl{list-style:none;display:flex;flex-direction:column;gap:8px}
-.bl li{display:flex;gap:10px;font-size:13px;color:var(--text);align-items:flex-start}
-.bl li::before{
-  content:"";display:block;width:5px;height:5px;
-  background:var(--blue);border-radius:50%;flex-shrink:0;margin-top:6px;
+.product-price{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:600;
+  font-size:16px;color:var(--accent);letter-spacing:-.2px;
 }
 
-/* SLIDE 6 — NEXT STEPS */
-.steps-row{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border:1px solid rgba(255,255,255,.08);border-radius:14px;
-  overflow:hidden;margin-bottom:28px;
+/* =============== SLIDE 5 — COOPERATION =============== */
+.coop-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--rule)}
+.coop-block{padding:44px 40px 40px 0;border-right:1px solid var(--rule)}
+.coop-block:last-child{border-right:none;padding:44px 0 40px 40px}
+.coop-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--ink-40);margin-bottom:14px;
+}
+.coop-label.highlight{color:var(--accent)}
+.coop-label.highlight::before{
+  content:"";display:inline-block;width:8px;height:8px;
+  background:var(--accent);border-radius:50%;margin-right:10px;
+  vertical-align:middle;
+}
+.coop-heading{
+  font-family:'Fraunces',serif;font-weight:700;font-size:32px;
+  letter-spacing:-1.2px;line-height:1.08;margin-bottom:16px;color:var(--ink);
+}
+.coop-desc{
+  font-size:15px;color:var(--ink-60);line-height:1.65;
+  margin-bottom:24px;font-weight:400;
+}
+.coop-list{list-style:none;display:flex;flex-direction:column;gap:14px}
+.coop-list li{
+  display:grid;grid-template-columns:auto 1fr;gap:12px;
+  font-size:14px;color:var(--ink-80);line-height:1.5;align-items:flex-start;
+}
+.coop-list li::before{
+  content:"+";font-family:'JetBrains Mono',monospace;
+  color:var(--accent);font-weight:600;font-size:16px;line-height:1.3;
+}
+
+/* =============== SLIDE 6 — NEXT STEPS =============== */
+.steps-list{
+  display:flex;flex-direction:column;gap:0;
+  border-top:1px solid var(--rule-dark);margin-bottom:56px;
 }
 .step{
-  padding:30px 26px;
-  border-right:1px solid rgba(255,255,255,.08);
+  display:grid;grid-template-columns:80px 1fr 2fr;gap:40px;
+  padding:32px 0;border-bottom:1px solid var(--rule-dark);align-items:baseline;
 }
-.step:last-child{border-right:none}
-.step-n{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:48px;font-weight:900;
-  color:rgba(37,99,235,.22);line-height:1;margin-bottom:14px;
+.step-idx{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+  font-size:28px;color:#93C5FD;line-height:1;
 }
-.step-t{font-size:14px;font-weight:700;color:#fff;margin-bottom:8px}
-.step-b{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6}
+.step-title{
+  font-family:'Fraunces',serif;font-weight:700;font-size:26px;
+  letter-spacing:-.8px;line-height:1.15;color:var(--paper);
+}
+.step-body{font-size:14px;color:rgba(255,255,255,.5);line-height:1.65;font-weight:400}
 
-.contact-row{
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;padding:18px 26px;
+.contact-bar{
+  display:grid;grid-template-columns:1fr 1fr auto;gap:40px;
+  align-items:center;padding-top:28px;
+  border-top:1px solid var(--rule-dark);
 }
-.ci p{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.25);margin-bottom:4px}
-.ci a{font-size:14px;font-weight:600;color:#fff;text-decoration:none}
-.ci a:hover{color:#93C5FD}
-.cta{
-  background:var(--blue);color:#fff;border:none;border-radius:8px;
-  padding:11px 22px;font-size:13px;font-weight:700;
-  text-decoration:none;cursor:pointer;display:inline-block;
+.ctc-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:rgba(255,255,255,.35);text-transform:uppercase;
+  letter-spacing:1.5px;margin-bottom:6px;
 }
+.ctc-value{
+  font-family:'Fraunces',serif;font-weight:600;font-size:18px;
+  color:var(--paper);text-decoration:none;letter-spacing:-.3px;
+}
+.ctc-value:hover{color:#93C5FD}
+.cta-primary{
+  background:var(--paper);color:var(--ink);
+  padding:16px 28px;border-radius:999px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:700;
+  text-decoration:none;letter-spacing:-.2px;
+  display:inline-flex;align-items:center;gap:10px;
+  transition:transform .15s;
+}
+.cta-primary:hover{transform:translateY(-2px)}
 
+/* PRINT */
 @media print{
   html{scroll-snap-type:none}
-  nav,.pdf-btn{display:none!important}
+  .pdf{display:none!important}
   @page{size:A4 landscape;margin:0}
-  .slide{min-height:100vh;page-break-after:always;padding-top:60px}
+  .slide{min-height:100vh;page-break-after:always}
+  h1,h2,.product-name,.coop-heading,.step-title{color:var(--ink)!important}
+  .slide.ink{background:var(--ink)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+@media(max-width:1080px){
+  .slide{padding:56px 48px 64px}
+  .cover-body,.two-col{grid-template-columns:1fr;gap:48px}
+  .pm-stats,.portfolio-grid,.coop-grid{grid-template-columns:1fr 1fr}
+  .cover-footer{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="pm-logo">
-    <div class="pm-mark">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <rect x="3" y="6" width="12" height="9" rx="2.5" fill="white"/>
-        <circle cx="7" cy="10" r="1.5" fill="#2563EB"/>
-        <circle cx="11" cy="10" r="1.5" fill="#2563EB"/>
-        <rect x="8" y="3" width="2" height="3" rx="1" fill="white"/>
-        <rect x="0" y="8" width="3" height="4" rx="1.5" fill="white" opacity=".45"/>
-        <rect x="15" y="8" width="3" height="4" rx="1.5" fill="white" opacity=".45"/>
-      </svg>
-    </div>
-    <span class="pm-wordmark">Positive Machines</span>
-  </div>
-  <div class="nav-context">Propozycja dla Panattoni Europe · 2026</div>
-</nav>
-
-<button class="pdf-btn" onclick="window.print()">
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+<button class="pdf" onclick="window.print()">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
   Pobierz PDF
 </button>
 
-<!-- 1. COVER -->
-<section class="slide s-dark">
-  <div class="cover-pill">
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    Dedykowana propozycja dla Panattoni Europe
+<!-- ============ SLIDE 1 — COVER ============ -->
+<section class="slide paper">
+  <div class="head">
+    <div class="wordmark">positive <em>machines</em></div>
+    <div class="meta">Propozycja · Panattoni Europe · 2026</div>
   </div>
-  <h1>Autonomiczne roboty<br>dla parków<br><em>Panattoni</em></h1>
-  <p class="lead w" style="max-width:540px">Positive Machines dostarcza, wdraża i serwisuje autonomiczne roboty przemysłowe dla logistyki, produkcji i facility management. Eliminujemy braki kadrowe, obniżamy koszty operacyjne i zapewniamy ciągłość 24/7.</p>
+  <div class="cover-body">
+    <div>
+      <div class="eyebrow">Dedykowana propozycja</div>
+      <h1>Roboty,<br>które pracują<br>za <em>Twoich</em><br>najemców.</h1>
+      <p class="kicker">Autonomiczna robotyka przemysłowa dla parków logistycznych. Mniej braków kadrowych, niższe koszty, ciągłość operacyjna 24 godziny na dobę.</p>
+    </div>
+    <div class="cover-art" aria-hidden="true">
+      <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#1E40AF" stop-opacity=".14"/>
+            <stop offset="100%" stop-color="#1E40AF" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <circle cx="260" cy="260" r="240" stroke="#1E40AF" stroke-width="1" stroke-opacity=".18"/>
+        <circle cx="260" cy="260" r="180" stroke="#1E40AF" stroke-width="1" stroke-opacity=".28"/>
+        <circle cx="260" cy="260" r="120" stroke="#1E40AF" stroke-width="1" stroke-opacity=".4"/>
+        <circle cx="260" cy="260" r="240" fill="url(#grad1)"/>
+        <!-- robot silhouette -->
+        <g transform="translate(180 160)">
+          <rect x="0" y="50" width="160" height="110" rx="18" fill="#0B1428"/>
+          <rect x="18" y="68" width="124" height="52" rx="6" fill="#93C5FD"/>
+          <circle cx="54" cy="94" r="8" fill="#1E40AF"/>
+          <circle cx="106" cy="94" r="8" fill="#1E40AF"/>
+          <rect x="60" y="130" width="40" height="4" rx="2" fill="#475569"/>
+          <rect x="68" y="16" width="24" height="34" rx="4" fill="#0B1428"/>
+          <circle cx="80" cy="14" r="6" fill="#1E40AF"/>
+          <rect x="-16" y="86" width="20" height="40" rx="8" fill="#0B1428"/>
+          <rect x="156" y="86" width="20" height="40" rx="8" fill="#0B1428"/>
+          <rect x="10" y="156" width="50" height="40" rx="4" fill="#0B1428"/>
+          <rect x="100" y="156" width="50" height="40" rx="4" fill="#0B1428"/>
+          <circle cx="35" cy="200" r="12" fill="#1E40AF"/>
+          <circle cx="125" cy="200" r="12" fill="#1E40AF"/>
+        </g>
+      </svg>
+    </div>
+  </div>
   <div class="cover-footer">
-    <div class="cf"><strong>positivemachines.pl</strong></div>
-    <div class="cf">Autoryzowany dystrybutor i serwis PUDU Robotics w Polsce</div>
-    <div class="cf">Best Partner of the Year · PUDU Robotics</div>
-    <div class="cf">Obsługa serwisowa na terenie całej Polski</div>
+    <div>
+      <div class="cf-label">Dystrybutor</div>
+      <div class="cf-value">PUDU Robotics<br>autoryzowany partner w Polsce</div>
+    </div>
+    <div>
+      <div class="cf-label">Wyróżnienia</div>
+      <div class="cf-value">Best Partner of the Year<br>PUDU Robotics</div>
+    </div>
+    <div>
+      <div class="cf-label">Zasięg</div>
+      <div class="cf-value">Serwis na terenie<br>całej Polski</div>
+    </div>
+    <div>
+      <div class="cf-label">Kontakt</div>
+      <div class="cf-value">positivemachines.pl</div>
+    </div>
   </div>
 </section>
 
-<!-- 2. PANATTONI + CHALLENGES -->
-<section class="slide s-white">
-  <div class="eyebrow">Kontekst</div>
-  <h2>Panattoni i wyzwania najemców</h2>
-  <p class="lead">Panattoni to lider rynku nieruchomości przemysłowych w Europie. Ich najemcy z e-commerce, logistyki i produkcji mierzą się z tymi samymi problemami operacyjnymi.</p>
-  <div class="two-col">
-    <div class="facts">
-      <div class="fact">
-        <div class="fn">70+</div>
-        <div class="fl">parków logistycznych w Polsce</div>
-      </div>
-      <div class="fact">
-        <div class="fn">60M</div>
-        <div class="fl">mkw powierzchni przemysłowej w Europie</div>
-      </div>
-      <div class="fact">
-        <div class="fn">24</div>
-        <div class="fl">kraje europejskie</div>
-      </div>
-    </div>
-    <div class="challenges">
-      <div class="ch">
-        <div class="chn">01</div>
-        <div>
-          <div class="cht">Braki kadrowe w logistyce</div>
-          <div class="chb">Rynek pracy w logistyce jest napięty. Trudno znaleźć i utrzymać pracowników do powtarzalnych zadań transportu, sprzątania i obsługi magazynu. Rotacja generuje stałe koszty rekrutacji i szkoleń.</div>
+<!-- ============ SLIDE 2 — PANATTONI KONTEKST ============ -->
+<section class="slide paper">
+  <div class="head">
+    <div class="wordmark">positive <em>machines</em></div>
+    <div class="meta">02 · Kontekst</div>
+  </div>
+  <div class="body">
+    <div class="eyebrow">Panattoni i najemcy</div>
+    <h2>Lider rynku<br>i jego wyzwania.</h2>
+    <p class="kicker">Panattoni rozwija 70+ parków logistycznych w Polsce. Najemcy z e-commerce, logistyki kontraktowej i produkcji mierzą się z tą samą strukturą problemów.</p>
+    <div class="two-col">
+      <div>
+        <div class="panattoni-num">
+          <div class="pn-big">70<em>+</em></div>
+          <div class="pn-label">parków logistycznych w Polsce, liderska pozycja na rynku deweloperów przemysłowych</div>
+        </div>
+        <div class="panattoni-num">
+          <div class="pn-big">60<em>M</em></div>
+          <div class="pn-label">metrów kwadratowych powierzchni przemysłowej rozwiniętej w Europie</div>
+        </div>
+        <div class="panattoni-num">
+          <div class="pn-big">24</div>
+          <div class="pn-label">rynki europejskie, ponad trzy dekady doświadczenia w logistyce i przemyśle</div>
         </div>
       </div>
-      <div class="ch">
-        <div class="chn">02</div>
-        <div>
-          <div class="cht">Rosnące koszty operacyjne</div>
-          <div class="chb">Wynagrodzenia, rekrutacja i absencje rosną co roku. Najemcy szukają rozwiązań, które pozwolą utrzymać marżę operacyjną bez skalowania zatrudnienia.</div>
+      <div>
+        <div class="challenge-list">
+          <div class="challenge-item">
+            <div class="ci-num">i.</div>
+            <div>
+              <div class="ci-title">Braki kadrowe</div>
+              <div class="ci-body">Rynek pracy w logistyce jest napięty. Najemcy nie są w stanie obsadzać stanowisk do powtarzalnych zadań transportu, sprzątania i obsługi magazynu.</div>
+            </div>
+          </div>
+          <div class="challenge-item">
+            <div class="ci-num">ii.</div>
+            <div>
+              <div class="ci-title">Rosnące koszty operacyjne</div>
+              <div class="ci-body">Wynagrodzenia, rekrutacja, rotacja, absencje. Struktura kosztów pracy rośnie szybciej niż przychody najemcy.</div>
+            </div>
+          </div>
+          <div class="challenge-item">
+            <div class="ci-num">iii.</div>
+            <div>
+              <div class="ci-title">Wymóg ciągłości 24/7</div>
+              <div class="ci-body">E-commerce, farmaceutyka i logistyka kontraktowa wymagają pełnej dostępności operacyjnej. Ludzie mają naturalne ograniczenia. Roboty nie.</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="ch">
-        <div class="chn">03</div>
-        <div>
-          <div class="cht">Wymagania ciągłości 24/7</div>
-          <div class="chb">E-commerce, farmaceutyka i logistyka kontraktowa wymagają pełnej dostępności operacyjnej przez całą dobę. Ludzie mają naturalne ograniczenia. Roboty nie.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3 — POSITIVE MACHINES ============ -->
+<section class="slide ink">
+  <div class="head">
+    <div class="wordmark">positive <em>machines</em></div>
+    <div class="meta">03 · Kim jesteśmy</div>
+  </div>
+  <div class="body">
+    <div class="eyebrow">O Positive Machines</div>
+    <h2 style="color:var(--paper)">Operator robotyki<br>autonomicznej<br>w <em style="font-style:italic;font-weight:500;color:#93C5FD">Polsce.</em></h2>
+    <p class="kicker" style="color:rgba(255,255,255,.6);max-width:720px">Autoryzowany dystrybutor i jedyny serwisant PUDU Robotics w Polsce. Sprzedaż, wdrożenie, integracja, szkolenia i serwis techniczny pod jednym dachem.</p>
+    <div class="pm-stats">
+      <div class="pm-stat">
+        <div class="ps-num">63<em>%</em></div>
+        <div class="ps-label">automatyzacja procesów osiągana u wybranych klientów*</div>
+      </div>
+      <div class="pm-stat">
+        <div class="ps-num">44<em>%</em></div>
+        <div class="ps-label">wzrost efektywności operacyjnej po wdrożeniu*</div>
+      </div>
+      <div class="pm-stat">
+        <div class="ps-num">31<em>%</em></div>
+        <div class="ps-label">redukcja kosztów operacyjnych w wybranych projektach*</div>
+      </div>
+      <div class="pm-stat">
+        <div class="ps-num">24/7</div>
+        <div class="ps-label">praca robotów bez przerw, bez dni wolnych, bez rotacji</div>
+      </div>
+    </div>
+    <div class="awards-row">
+      <div class="award">
+        <div class="aw-name">Best Partner of the Year</div>
+        <div class="aw-sub">PUDU Robotics</div>
+      </div>
+      <div class="award">
+        <div class="aw-name">Excellent Service Performance Partner</div>
+        <div class="aw-sub">PUDU Robotics</div>
+      </div>
+      <div class="award">
+        <div class="aw-name">Autoryzowany serwis</div>
+        <div class="aw-sub">jedyny w Polsce</div>
+      </div>
+    </div>
+    <div class="fn-note">*Wyniki agregowane z projektów klientów Positive Machines po minimum 6 miesiącach użytkowania. Skala efektu zależy od branży i skali wdrożenia.</div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4 — PORTFOLIO ============ -->
+<section class="slide paper">
+  <div class="head">
+    <div class="wordmark">positive <em>machines</em></div>
+    <div class="meta">04 · Portfolio</div>
+  </div>
+  <div class="body">
+    <div class="eyebrow">Roboty dla logistyki</div>
+    <h2>Trzy kategorie,<br>jeden dostawca.</h2>
+    <p class="kicker">Dobieramy robota do specyfiki obiektu, rodzaju operacji i potrzeb najemcy. Wszystko w jednym ekosystemie, z jednym punktem serwisowym.</p>
+    <div class="portfolio-grid">
+      <div class="product">
+        <div class="product-visual">
+          <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="50" width="140" height="70" rx="10" fill="#0B1428"/>
+            <rect x="42" y="30" width="116" height="30" rx="6" fill="#1E40AF"/>
+            <rect x="50" y="72" width="100" height="4" rx="2" fill="#93C5FD" opacity=".5"/>
+            <rect x="50" y="84" width="70" height="4" rx="2" fill="#93C5FD" opacity=".3"/>
+            <rect x="50" y="96" width="85" height="4" rx="2" fill="#93C5FD" opacity=".4"/>
+            <circle cx="55" cy="130" r="12" fill="#0B1428" stroke="#1E40AF" stroke-width="2"/>
+            <circle cx="55" cy="130" r="5" fill="#1E40AF"/>
+            <circle cx="145" cy="130" r="12" fill="#0B1428" stroke="#1E40AF" stroke-width="2"/>
+            <circle cx="145" cy="130" r="5" fill="#1E40AF"/>
+            <path d="M100 15 L100 28" stroke="#1E40AF" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="100" cy="12" r="3" fill="#1E40AF"/>
+          </svg>
         </div>
+        <div class="product-tag">Transport</div>
+        <div class="product-name">PUDU<br>T300 · T600</div>
+        <div class="product-desc">Autonomiczne roboty transportowe do 300 lub 600 kg. Nawigacja SLAM, omijanie przeszkód, auto-ładowanie. Dla hal magazynowych, centrów dystrybucji i linii produkcyjnych.</div>
+        <div class="product-specs">
+          do 600 kg udźwigu<br>
+          autonomiczna nawigacja<br>
+          automatyczne ładowanie
+        </div>
+        <div class="product-price">T300 od 2 290 zł netto / mies.</div>
+      </div>
+      <div class="product">
+        <div class="product-visual">
+          <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="100" cy="128" rx="60" ry="8" fill="#0B1428" opacity=".15"/>
+            <rect x="50" y="30" width="100" height="100" rx="32" fill="#0B1428"/>
+            <circle cx="100" cy="70" r="24" fill="#93C5FD"/>
+            <circle cx="100" cy="70" r="10" fill="#1E40AF"/>
+            <rect x="60" y="100" width="80" height="4" rx="2" fill="#1E40AF" opacity=".5"/>
+            <rect x="65" y="110" width="70" height="3" rx="1.5" fill="#93C5FD" opacity=".3"/>
+            <path d="M75 25 L125 25" stroke="#1E40AF" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="product-tag">Sprzątanie</div>
+        <div class="product-name">PUDU<br>CC1 Pro · MT1</div>
+        <div class="product-desc">Autonomiczne roboty sprzątające z AI. CC1 Pro do 1 600 mkw/h w halach i biurach. MT1 i MT1 Max do dużych powierzchni zewnętrznych i parkingów.</div>
+        <div class="product-specs">
+          do 1 600 mkw / godz.<br>
+          mapowanie AI, auto-trasy<br>
+          wersje wewnętrzne i zewnętrzne
+        </div>
+        <div class="product-price">Od 1 990 zł netto / mies.</div>
+      </div>
+      <div class="product">
+        <div class="product-visual">
+          <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="60" y="20" width="80" height="110" rx="16" fill="#0B1428"/>
+            <rect x="72" y="36" width="56" height="40" rx="4" fill="#1E40AF"/>
+            <circle cx="86" cy="52" r="3" fill="#93C5FD"/>
+            <circle cx="114" cy="52" r="3" fill="#93C5FD"/>
+            <rect x="84" y="62" width="32" height="8" rx="2" fill="#93C5FD" opacity=".6"/>
+            <rect x="76" y="86" width="48" height="3" rx="1.5" fill="#93C5FD" opacity=".4"/>
+            <rect x="76" y="94" width="40" height="3" rx="1.5" fill="#93C5FD" opacity=".3"/>
+            <circle cx="76" cy="128" r="8" fill="#0B1428" stroke="#1E40AF" stroke-width="2"/>
+            <circle cx="124" cy="128" r="8" fill="#0B1428" stroke="#1E40AF" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="product-tag">Recepcja</div>
+        <div class="product-name">PUDU<br>KettyBot</div>
+        <div class="product-desc">Robot recepcyjny z interaktywnym ekranem. Wita gości, prowadzi po obiekcie, prezentuje materiały i informacje. Dla siedzib, biur i centrów zarządzania parkiem.</div>
+        <div class="product-specs">
+          interaktywny ekran HD<br>
+          nawigacja po obiekcie<br>
+          moduł marketingowy
+        </div>
+        <div class="product-price">Wycena indywidualna</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 3. O POSITIVE MACHINES -->
-<section class="slide s-dark">
-  <div class="eyebrow dim">Positive Machines</div>
-  <h2 class="w">Lider robotyki autonomicznej w Polsce</h2>
-  <p class="lead w">Jedyny autoryzowany dystrybutor i serwisant PUDU Robotics w Polsce. Kompletny zakres usług: sprzedaż, wdrożenie, integracja, szkolenia i serwis techniczny na terenie całego kraju.</p>
-  <div class="stats-row">
-    <div class="stat">
-      <div class="sn">63%</div>
-      <div class="sl">automatyzacja procesów u klientów</div>
-    </div>
-    <div class="stat">
-      <div class="sn">44%</div>
-      <div class="sl">wzrost efektywności operacyjnej</div>
-    </div>
-    <div class="stat">
-      <div class="sn">31%</div>
-      <div class="sl">redukcja kosztów operacyjnych</div>
-    </div>
-    <div class="stat">
-      <div class="sn">24/7</div>
-      <div class="sl">praca bez przerw i dni wolnych</div>
-    </div>
+<!-- ============ SLIDE 5 — WSPOŁPRACA ============ -->
+<section class="slide cream">
+  <div class="head">
+    <div class="wordmark">positive <em>machines</em></div>
+    <div class="meta">05 · Współpraca</div>
   </div>
-  <div class="awards">
-    <div class="award">Best Partner of the Year<span>PUDU Robotics</span></div>
-    <div class="award">Excellent Service Performance Partner<span>PUDU Robotics</span></div>
-    <div class="award">Autoryzowany dystrybutor i serwis<span>jedyny w Polsce</span></div>
-  </div>
-  <div class="footnote">Dane zebrane po min. 6 miesiącach użytkowania u klientów Positive Machines.</div>
-</section>
-
-<!-- 4. PORTFOLIO -->
-<section class="slide s-gray">
-  <div class="eyebrow">Portfolio dla logistyki</div>
-  <h2>Roboty dopasowane do Twoich obiektów</h2>
-  <p class="lead">Trzy kategorie robotów odpowiadające na konkretne potrzeby parków logistycznych i ich najemców.</p>
-  <div class="prod-grid">
-    <div class="prod-card">
-      <div class="prod-icon-wrap">
-        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-          <rect x="8" y="16" width="36" height="24" rx="5" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
-          <rect x="15" y="9" width="22" height="10" rx="3" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
-          <circle cx="17" cy="44" r="4" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
-          <circle cx="35" cy="44" r="4" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
-          <rect x="18" y="25" width="16" height="2" rx="1" fill="#93C5FD"/>
-          <rect x="18" y="30" width="10" height="2" rx="1" fill="#BFDBFE"/>
-        </svg>
+  <div class="body">
+    <div class="eyebrow">Propozycja</div>
+    <h2>Dwa modele<br>partnerstwa.</h2>
+    <p class="kicker">Model A daje Panattoni trwałą przewagę konkurencyjną na poziomie całego ekosystemu parków. Model B to szybki start od własnych obiektów.</p>
+    <div class="coop-grid">
+      <div class="coop-block">
+        <div class="coop-label highlight">Rekomendowany · A</div>
+        <div class="coop-heading">Partner robotyki dla najemców Panattoni</div>
+        <div class="coop-desc">Positive Machines wchodzi do ekosystemu Panattoni jako preferowany dostawca robotyki dla najemców. Firmy wchodzące do parku mają dostęp do sprawdzonych rozwiązań od pierwszego dnia umowy najmu.</div>
+        <ul class="coop-list">
+          <li>Wyróżnienie oferty Panattoni na tle konkurencji deweloperów</li>
+          <li>Dedykowany program partnerski i warunki handlowe dla najemców</li>
+          <li>Pełne wsparcie wdrożeniowe i serwisowe w ramach współpracy</li>
+          <li>Wspólny marketing, case studies i komunikacja branżowa</li>
+        </ul>
       </div>
-      <div class="prod-cat">Transport autonomiczny</div>
-      <div class="prod-name">PUDU T300 / T600</div>
-      <div class="prod-desc">Roboty transportowe do 300 lub 600 kg z autonomiczną nawigacją, omijaniem przeszkód i automatycznym ładowaniem. Dla hal magazynowych i centrów dystrybucji.</div>
-      <div class="prod-tags">
-        <span class="tag">Do 600 kg</span>
-        <span class="tag">Autonomiczna nawigacja</span>
-        <span class="tag">Auto-ładowanie</span>
+      <div class="coop-block">
+        <div class="coop-label">Alternatywny · B</div>
+        <div class="coop-heading">Wdrożenia we własnych obiektach Panattoni</div>
+        <div class="coop-desc">Roboty pracują bezpośrednio w obiektach Panattoni. Utrzymanie czystości hal, robot recepcyjny w siedzibie, transport wewnętrzny w wybranych parkach.</div>
+        <ul class="coop-list">
+          <li>KettyBot w siedzibie HQ przy pl. Europejskim w Warszawie</li>
+          <li>Roboty CC1 Pro do utrzymania czystości w parkach logistycznych</li>
+          <li>T300 lub T600 do transportu wewnętrznego w wybranych halach</li>
+          <li>Elastyczny wynajem lub zakup na własność, rozliczenie OpEx</li>
+        </ul>
       </div>
-      <div class="prod-price">T300 od 2 290 zł netto / mies.</div>
-    </div>
-    <div class="prod-card">
-      <div class="prod-icon-wrap">
-        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-          <ellipse cx="26" cy="42" rx="16" ry="5" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
-          <rect x="14" y="14" width="24" height="28" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
-          <circle cx="26" cy="28" r="7" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
-          <circle cx="26" cy="28" r="2.5" fill="#2563EB" opacity=".4"/>
-          <path d="M21 12h10" stroke="#BFDBFE" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="prod-cat">Sprzątanie autonomiczne</div>
-      <div class="prod-name">PUDU CC1 Pro / MT1</div>
-      <div class="prod-desc">Roboty sprzątające z AI do hal, biur i parkingów. CC1 Pro do 1 600 mkw/h wewnątrz, MT1 i MT1 Max do dużych powierzchni zewnętrznych i parkingów przemysłowych.</div>
-      <div class="prod-tags">
-        <span class="tag">Do 1 600 mkw/h</span>
-        <span class="tag">AI mapping</span>
-        <span class="tag">Zewnętrzne</span>
-      </div>
-      <div class="prod-price">Od 1 990 zł netto / mies.</div>
-    </div>
-    <div class="prod-card">
-      <div class="prod-icon-wrap">
-        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-          <rect x="11" y="13" width="30" height="28" rx="7" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
-          <rect x="17" y="18" width="18" height="12" rx="3" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
-          <circle cx="21" cy="24" r="1.5" fill="#2563EB" opacity=".5"/>
-          <circle cx="31" cy="24" r="1.5" fill="#2563EB" opacity=".5"/>
-          <circle cx="19" cy="44" r="3.5" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
-          <circle cx="33" cy="44" r="3.5" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <div class="prod-cat">Recepcja i komunikacja</div>
-      <div class="prod-name">PUDU KettyBot</div>
-      <div class="prod-desc">Robot recepcyjny z interaktywnym ekranem. Wita gości, prowadzi po obiekcie, wyświetla materiały promocyjne i informacje. Dla biur i centrów zarządzania parkiem.</div>
-      <div class="prod-tags">
-        <span class="tag">Interaktywny ekran</span>
-        <span class="tag">Nawigacja</span>
-        <span class="tag">Marketing</span>
-      </div>
-      <div class="prod-price">Wycena indywidualna</div>
     </div>
   </div>
 </section>
 
-<!-- 5. MODEL WSPOLPRACY -->
-<section class="slide s-white">
-  <div class="eyebrow">Propozycja współpracy</div>
-  <h2>Dwa modele partnerstwa</h2>
-  <p class="lead">Możemy działać na poziomie całego ekosystemu parków lub wdrożyć roboty bezpośrednio w obiektach Panattoni. Rekomendujemy model A jako trwałą przewagę konkurencyjną.</p>
-  <div class="coop-grid">
-    <div class="coop-card featured">
-      <div class="rec-badge">Rekomendowane</div>
-      <div class="coop-title">Partner dla najemców Panattoni</div>
-      <div class="coop-body">Positive Machines wchodzi do ekosystemu Panattoni jako preferowany dostawca robotyki dla najemców. Firmy wchodzące do parku mają dostęp do sprawdzonych rozwiązań od pierwszego dnia najmu.</div>
-      <ul class="bl">
-        <li>Wyróżnienie oferty Panattoni na tle deweloperów konkurencyjnych</li>
-        <li>Dedykowany program partnerski i warunki handlowe dla najemców</li>
-        <li>Pełne wsparcie wdrożeniowe i serwisowe w ramach współpracy</li>
-        <li>Wspólny marketing i case studies dla klientów Panattoni</li>
-      </ul>
-    </div>
-    <div class="coop-card">
-      <div class="coop-title">Wdrożenia we własnych obiektach</div>
-      <div class="coop-body">Roboty pracują bezpośrednio w obiektach Panattoni: utrzymanie czystości hal, robot recepcyjny w siedzibie, transport wewnętrzny w wybranych parkach.</div>
-      <ul class="bl">
-        <li>KettyBot w siedzibie HQ przy pl. Europejskim w Warszawie</li>
-        <li>Roboty CC1 Pro do utrzymania czystości w parkach logistycznych</li>
-        <li>T300 lub T600 do transportu wewnętrznego w wybranych halach</li>
-        <li>Elastyczny wynajem lub zakup na własność</li>
-      </ul>
-    </div>
+<!-- ============ SLIDE 6 — NEXT STEPS ============ -->
+<section class="slide ink">
+  <div class="head">
+    <div class="wordmark">positive <em>machines</em></div>
+    <div class="meta">06 · Następne kroki</div>
   </div>
-</section>
-
-<!-- 6. NEXT STEPS -->
-<section class="slide s-dark">
-  <div class="eyebrow dim">Następne kroki</div>
-  <h2 class="w">Od rozmowy do działającego robota</h2>
-  <p class="lead w">Wdrożenie jest szybkie i nieobarczone ryzykiem. Przeprowadzimy Panattoni przez każdy etap, od wyboru modelu po serwis na terenie całej Polski.</p>
-  <div class="steps-row">
-    <div class="step">
-      <div class="step-n">01</div>
-      <div class="step-t">Demo na żywo</div>
-      <div class="step-b">Prezentacja robotów w działaniu w Waszym obiekcie lub u nas. Dobór konkretnych modeli do specyfiki hal i potrzeb najemców Panattoni.</div>
+  <div class="body">
+    <div class="eyebrow">Wdrożenie</div>
+    <h2 style="color:var(--paper)">Od rozmowy<br>do działającego<br><em style="font-style:italic;font-weight:500;color:#93C5FD">robota.</em></h2>
+    <p class="kicker" style="color:rgba(255,255,255,.6);max-width:660px">Proces wdrożenia jest prosty i nieobarczony ryzykiem. Przeprowadzimy Panattoni przez każdy etap, od wyboru modelu po serwis na terenie całego kraju.</p>
+    <div class="steps-list">
+      <div class="step">
+        <div class="step-idx">i.</div>
+        <div class="step-title">Demo na żywo</div>
+        <div class="step-body">Prezentacja robotów w działaniu w Waszym obiekcie lub u nas. Dobieramy konkretne modele do specyfiki hal i potrzeb najemców.</div>
+      </div>
+      <div class="step">
+        <div class="step-idx">ii.</div>
+        <div class="step-title">Pilotaż w jednym parku</div>
+        <div class="step-body">Wdrożenie pilotażowe w wybranym obiekcie. Mapowanie tras, konfiguracja, szkolenie personelu, pełne wsparcie techniczne przez cały czas trwania pilotażu.</div>
+      </div>
+      <div class="step">
+        <div class="step-idx">iii.</div>
+        <div class="step-title">Skalowanie</div>
+        <div class="step-body">Po pozytywnej walidacji pilotażu rozszerzamy wdrożenie na kolejne parki i kategorie robotów. Jeden punkt kontaktowy, serwis na terenie całej Polski.</div>
+      </div>
     </div>
-    <div class="step">
-      <div class="step-n">02</div>
-      <div class="step-t">Pilotaż w jednym parku</div>
-      <div class="step-b">Wdrożenie pilotażowe w wybranym obiekcie: mapowanie tras, konfiguracja, szkolenie personelu. Pełne wsparcie techniczne przez cały czas pilotażu.</div>
+    <div class="contact-bar">
+      <div>
+        <div class="ctc-label">Email</div>
+        <a href="mailto:kontakt@positivemachines.pl" class="ctc-value">kontakt@positivemachines.pl</a>
+      </div>
+      <div>
+        <div class="ctc-label">Strona</div>
+        <a href="https://positivemachines.pl" target="_blank" class="ctc-value">positivemachines.pl</a>
+      </div>
+      <a href="mailto:kontakt@positivemachines.pl" class="cta-primary">
+        Umów demo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
     </div>
-    <div class="step">
-      <div class="step-n">03</div>
-      <div class="step-t">Skalowanie</div>
-      <div class="step-b">Po pozytywnym pilotażu rozszerzamy na kolejne parki i kategorie robotów. Jeden punkt kontaktowy, serwis na terenie całej Polski.</div>
-    </div>
-  </div>
-  <div class="contact-row">
-    <div class="ci">
-      <p>Email</p>
-      <a href="mailto:kontakt@positivemachines.pl">kontakt@positivemachines.pl</a>
-    </div>
-    <div class="ci">
-      <p>Strona</p>
-      <a href="https://positivemachines.pl" target="_blank">positivemachines.pl</a>
-    </div>
-    <a href="mailto:kontakt@positivemachines.pl" class="cta">Umów demo</a>
   </div>
 </section>
 

@@ -15,7 +15,22 @@ const TYPES = [
   { id: 'email', label: 'Sekwencja emaili', desc: '3 gotowe emaile do wysyłki: pierwsze nawiązanie, follow-up z wartością, ostatnie podejście' },
 ]
 
-const PRODUCTS = ['Cinema', 'LSI Cloud', 'Nogasite', 'Inny']
+const PRODUCTS = [
+  'Cinema',
+  'LSI Cloud',
+  'Positive Restaurant',
+  'Nogasite',
+  'Pozytyw Hotel',
+  'Pozytyw Cinema',
+  'PUDU T300 · transport 300 kg',
+  'PUDU T600 · transport 600 kg',
+  'PUDU CC1 Pro · sprzątanie',
+  'PUDU MT1 · sprzątanie zewnętrzne',
+  'PUDU KettyBot · recepcja',
+  'PUDU BellaBot · gastronomia',
+  'PUDU HolaBot · transport w gastronomii',
+  'Inny',
+]
 const COLORS = ['#2383e2', '#0f7b6c', '#9b6700', '#c4320a', '#5b21b6', '#37352f']
 
 interface ClientData {
