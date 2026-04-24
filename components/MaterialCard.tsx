@@ -24,7 +24,7 @@ export default function MaterialCard({ material }: { material: Material }) {
         <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{material.client} · {new Date(material.createdAt).toLocaleDateString('pl')}</div>
       </div>
       <div style={{ padding: '0 12px 10px', display: 'flex', gap: 6 }}>
-        <a href={material.blobUrl} target="_blank" style={{ flex: 1, padding: '4px 0', textAlign: 'center', background: 'var(--bg-sidebar)', borderRadius: 4, fontSize: 10, color: 'var(--text-secondary)', textDecoration: 'none' }}>Podgląd</a>
+        <a href={`/p/${material.id}`} target="_blank" style={{ flex: 1, padding: '4px 0', textAlign: 'center', background: 'var(--bg-sidebar)', borderRadius: 4, fontSize: 10, color: 'var(--text-secondary)', textDecoration: 'none' }}>Podgląd</a>
         <a href={`/material/${material.id}`} style={{ flex: 1, padding: '4px 0', textAlign: 'center', background: 'var(--accent)', borderRadius: 4, fontSize: 10, color: 'white', textDecoration: 'none' }}>Edytuj</a>
       </div>
     </div>

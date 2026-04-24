@@ -42,7 +42,7 @@ export default function MaterialsPage() {
                 <td style={{ padding: '10px 12px', fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>{d.toLocaleDateString('pl')} · {d.toLocaleTimeString('pl', { hour: '2-digit', minute: '2-digit' })}</td>
                 <td style={{ padding: '10px 12px' }}>
                   <div style={{ display: 'flex', gap: 6 }}>
-                    <a href={m.blobUrl} target="_blank" style={{ padding: '3px 8px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: 'var(--text-secondary)' }}>Podgląd</a>
+                    <a href={`/p/${m.id}`} target="_blank" style={{ padding: '3px 8px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: 'var(--text-secondary)' }}>Podgląd</a>
                     <Link href={`/material/${m.id}`} style={{ padding: '3px 8px', background: 'var(--accent)', color: 'white', borderRadius: 4, fontSize: 11, textDecoration: 'none' }}>Edytuj</Link>
                   </div>
                 </td>

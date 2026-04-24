@@ -7,7 +7,7 @@ import { TEMPLATES, remixTemplate, RemixParams } from '@/lib/templates'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { templateId, params } = body as { templateId: string; params: RemixParams }
+  const { templateId, params, materialId: existingId } = body as { templateId: string; params: RemixParams; materialId?: string }
 
   if (!templateId || typeof templateId !== 'string') {
     return NextResponse.json({ error: 'templateId required' }, { status: 400 })
@@ -25,19 +25,20 @@ export async function POST(req: NextRequest) {
     const html = await readFile(filePath, 'utf-8')
     const remixed = remixTemplate(html, params)
 
-    const materialId = `mat_${crypto.randomUUID()}`
-    const filename = `${templateId}-${materialId}.html`
+    const materialId = existingId ?? `mat_${crypto.randomUUID()}`
+    const filename = `${templateId}-${materialId}-${Date.now()}.html`
     const blob = await put(filename, remixed, { access: 'public', contentType: 'text/html' })
 
+    const existing = existingId ? await kv.get<any>(`mm:material:${materialId}`) : null
     await kv.set(`mm:material:${materialId}`, {
       id: materialId,
-      name: `${params.clientName} — ${template.name}`,
+      name: existing?.name ?? `${params.clientName} — ${template.name}`,
       type: template.type,
       client: params.clientName,
       product: params.productName,
       blobUrl: blob.url,
       templateId,
-      createdAt: new Date().toISOString(),
+      createdAt: existing?.createdAt ?? new Date().toISOString(),
     })
 
     return NextResponse.json({ materialId, url: blob.url })

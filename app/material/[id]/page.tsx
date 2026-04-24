@@ -23,7 +23,7 @@ export default function MaterialEditor() {
       .then((m: Material) => {
         if (!m) return
         setMaterial(m)
-        setPreviewUrl(m.blobUrl)
+        setPreviewUrl(`/p/${m.id}`)
         setParams(prev => ({ ...prev, clientName: m.client, productName: m.product }))
       })
       .catch(() => setMaterial(null))
@@ -37,17 +37,14 @@ export default function MaterialEditor() {
       const res = await fetch('/api/remix', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ templateId: material.templateId, params }),
+        body: JSON.stringify({ templateId: material.templateId, params, materialId: material.id }),
       })
       if (!res.ok) {
         setError(`Regeneracja nie powiodła się (${res.status})`)
         return
       }
-      const data = await res.json()
-      if (data.url) {
-        setPreviewUrl(data.url)
-        setPreviewKey(k => k + 1)
-      }
+      setPreviewUrl(`/p/${material.id}`)
+      setPreviewKey(k => k + 1)
     } catch (e: any) {
       setError(`Błąd sieci: ${e?.message ?? 'nieznany'}`)
     } finally {
@@ -67,7 +64,9 @@ export default function MaterialEditor() {
   }
 
   function copyUrl() {
-    navigator.clipboard.writeText(previewUrl).catch(() => {})
+    if (!material) return
+    const abs = `${window.location.origin}/p/${material.id}`
+    navigator.clipboard.writeText(abs).catch(() => {})
   }
 
   if (!material) return <div style={{ padding: 32, color: 'var(--text-muted)' }}>Ładowanie materiału...</div>
