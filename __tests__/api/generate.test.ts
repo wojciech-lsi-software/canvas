@@ -52,3 +52,13 @@ test('mode=classify zwraca fallback gdy Claude nie zwróci poprawnego JSON', asy
   expect(data.intent).toBe('generate')
   expect(data.detectedTemplate).toBeNull()
 })
+
+test('mode=classify z pustym message nie crashuje', async () => {
+  const req = new Request('http://localhost/api/generate', {
+    method: 'POST',
+    body: JSON.stringify({ mode: 'classify', message: '' }),
+  })
+  const res = await POST(req)
+  const data = await res.json()
+  expect(data).toHaveProperty('intent')
+})
