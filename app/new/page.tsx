@@ -19,6 +19,7 @@ const PRODUCT_GROUPS: { label: string; items: string[] }[] = [
   { label: 'LSI Software', items: [
     'POSitive Restaurant',
     'POSitive Cinema',
+    'Cinema1',
     'POSitive Hotel',
     'POSitive Retail',
     'POSitive Beauty',

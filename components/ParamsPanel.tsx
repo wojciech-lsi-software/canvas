@@ -2,7 +2,7 @@ import { RemixParams } from '@/lib/templates'
 import InfoTip from '@/components/InfoTip'
 
 const PRODUCT_GROUPS: { label: string; items: string[] }[] = [
-  { label: 'LSI Software', items: ['POSitive Restaurant', 'POSitive Cinema', 'POSitive Hotel', 'POSitive Retail', 'POSitive Beauty', 'POSitive ESOK', 'LSI Cloud', 'Gastro.pl', 'Roomio', 'be in touch'] },
+  { label: 'LSI Software', items: ['POSitive Restaurant', 'POSitive Cinema', 'Cinema1', 'POSitive Hotel', 'POSitive Retail', 'POSitive Beauty', 'POSitive ESOK', 'LSI Cloud', 'Gastro.pl', 'Roomio', 'be in touch'] },
   { label: 'PM — gastro', items: ['PUDU BellaBot Pro', 'PUDU BellaBot', 'PUDU KettyBot', 'PUDU HolaBot', 'PUDU Pudubot2'] },
   { label: 'PM — sprzątanie', items: ['PUDU CC1 Pro', 'PUDU CC1', 'PUDU SH1', 'MAXHUB C3'] },
   { label: 'PM — zamiatanie', items: ['PUDU MT1', 'PUDU MT1 Vac', 'PUDU MT1 Max'] },
