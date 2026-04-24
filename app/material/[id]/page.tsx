@@ -30,18 +30,58 @@ export default function MaterialEditor() {
   }, [id])
 
   async function regenerate() {
-    if (!material?.templateId) return
+    if (!material) return
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/remix', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ templateId: material.templateId, params, materialId: material.id }),
-      })
-      if (!res.ok) {
-        setError(`Regeneracja nie powiodła się (${res.status})`)
-        return
+      if (material.templateId) {
+        const res = await fetch('/api/remix', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ templateId: material.templateId, params, materialId: material.id }),
+        })
+        if (!res.ok) {
+          setError(`Regeneracja nie powiodła się (${res.status})`)
+          return
+        }
+      } else {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: 'generate',
+            type: material.type,
+            client: { name: params.clientName, industry: params.clientIndustry },
+            product: params.productName,
+            focus: params.focus,
+            logoUrl: params.logoUrl,
+            accentColor: params.accentColor,
+            materialId: material.id,
+          }),
+        })
+        if (!res.ok || !res.body) {
+          setError(`Regeneracja nie powiodła się (${res.status})`)
+          return
+        }
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+        let finished = false
+        while (!finished) {
+          const { value, done: streamDone } = await reader.read()
+          if (streamDone) break
+          buffer += decoder.decode(value, { stream: true })
+          const parts = buffer.split('\n\n')
+          buffer = parts.pop() ?? ''
+          for (const part of parts) {
+            if (!part.startsWith('data: ')) continue
+            try {
+              const evt = JSON.parse(part.slice(6))
+              if (evt.error) { setError('Generacja AI nie powiodła się'); finished = true; break }
+              if (evt.done) { finished = true; break }
+            } catch {}
+          }
+        }
       }
       setPreviewUrl(`/p/${material.id}`)
       setPreviewKey(k => k + 1)
@@ -89,7 +129,6 @@ export default function MaterialEditor() {
           onChange={setParams}
           onRegenerate={regenerate}
           loading={loading}
-          disabledReason={!material.templateId ? 'Edycja live dostępna tylko dla materiałów wygenerowanych z szablonu. Zacznij nowy materiał z biblioteki szablonów, żeby edytować parametry na żywo.' : undefined}
         />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '5px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg-sidebar)', display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: 'var(--text-muted)', flexShrink: 0 }}>

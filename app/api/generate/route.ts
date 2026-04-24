@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
   }
 
   // mode === 'generate' — streaming SSE
-  const { type, client, product, focus, logoUrl = '', accentColor = '', clientContext = '', clientWebsite = '' } = body as {
+  const { type, client, product, focus, logoUrl = '', accentColor = '', clientContext = '', clientWebsite = '', materialId: existingId } = body as {
     type: string
     client?: { name?: string; industry?: string; description?: string; tagline?: string }
     product: string
@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
     accentColor?: string
     clientContext?: string
     clientWebsite?: string
+    materialId?: string
   }
 
   const typeLabel: Record<string, string> = {
@@ -108,16 +109,17 @@ WAŻNE: Użyj koloru ${accentColor || '#2383e2'} jako głównego koloru akcentow
           }
         }
 
-        const materialId = `mat_${crypto.randomUUID()}`
-        const blob = await put(`${materialId}.html`, fullHtml, { access: 'public', contentType: 'text/html' })
+        const materialId = existingId ?? `mat_${crypto.randomUUID()}`
+        const blob = await put(`${materialId}-${Date.now()}.html`, fullHtml, { access: 'public', contentType: 'text/html' })
+        const existing = existingId ? await kv.get<any>(`mm:material:${materialId}`) : null
         await kv.set(`mm:material:${materialId}`, {
           id: materialId,
-          name: `${client?.name ?? 'Materiał'} — ${type}`,
+          name: existing?.name ?? `${client?.name ?? 'Materiał'} — ${type}`,
           type,
-          client: client?.name ?? '',
+          client: client?.name ?? existing?.client ?? '',
           product,
           blobUrl: blob.url,
-          createdAt: new Date().toISOString(),
+          createdAt: existing?.createdAt ?? new Date().toISOString(),
         })
 
         controller.enqueue(encoder.encode(`data: ${JSON.stringify({ done: true, materialId, url: blob.url })}\n\n`))
