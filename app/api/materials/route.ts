@@ -18,6 +18,17 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function DELETE(req: NextRequest) {
+  try {
+    const id = req.nextUrl.searchParams.get('id')
+    if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
+    await kv.del(`mm:material:${id}`)
+    return NextResponse.json({ ok: true })
+  } catch {
+    return NextResponse.json({ error: 'Failed to delete material' }, { status: 500 })
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const material = await req.json()

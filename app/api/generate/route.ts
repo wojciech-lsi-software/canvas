@@ -44,6 +44,13 @@ export async function POST(req: NextRequest) {
     materialId?: string
   }
 
+  if (!client?.name?.trim()) {
+    return NextResponse.json({ error: 'Brak nazwy klienta — pole wymagane' }, { status: 400 })
+  }
+  if (!product?.trim()) {
+    return NextResponse.json({ error: 'Brak nazwy produktu' }, { status: 400 })
+  }
+
   const typeLabel: Record<string, string> = {
     landing: 'landing page',
     presentation: 'prezentację sprzedażową',
@@ -110,8 +117,13 @@ WAŻNE: Użyj koloru ${accentColor || '#2383e2'} jako głównego koloru akcentow
         }
 
         const materialId = existingId ?? `mat_${crypto.randomUUID()}`
-        const blob = await put(`${materialId}-${Date.now()}.html`, fullHtml, { access: 'public', contentType: 'text/html' })
         const existing = existingId ? await kv.get<any>(`mm:material:${materialId}`) : null
+        if (existing?.locked) {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: 'Material zablokowany przed regeneracją' })}\n\n`))
+          controller.close()
+          return
+        }
+        const blob = await put(`${materialId}-${Date.now()}.html`, fullHtml, { access: 'public', contentType: 'text/html' })
         await kv.set(`mm:material:${materialId}`, {
           id: materialId,
           name: existing?.name ?? `${client?.name ?? 'Materiał'} — ${type}`,
@@ -119,6 +131,14 @@ WAŻNE: Użyj koloru ${accentColor || '#2383e2'} jako głównego koloru akcentow
           client: client?.name ?? existing?.client ?? '',
           product,
           blobUrl: blob.url,
+          params: {
+            clientName: client?.name ?? '',
+            clientIndustry: client?.industry ?? '',
+            productName: product,
+            logoUrl,
+            accentColor,
+            focus,
+          },
           createdAt: existing?.createdAt ?? new Date().toISOString(),
         })
 

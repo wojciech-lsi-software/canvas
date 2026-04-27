@@ -12,6 +12,12 @@ export default function MaterialsPage() {
     fetchMaterials().then(mats => setMaterials(mats.sort((a, b) => b.createdAt.localeCompare(a.createdAt))))
   }, [])
 
+  async function handleDelete(id: string, label: string) {
+    if (!confirm(`Usunąć materiał "${label}"? Tej operacji nie można cofnąć.`)) return
+    const res = await fetch(`/api/materials?id=${encodeURIComponent(id)}`, { method: 'DELETE' })
+    if (res.ok) setMaterials(prev => prev.filter(m => m.id !== id))
+  }
+
   if (!materials.length) return (
     <div style={{ padding: 32, textAlign: 'center', color: 'var(--text-muted)', paddingTop: 100 }}>
       <div style={{ fontSize: 16, marginBottom: 8 }}>Brak wygenerowanych materiałów</div>
@@ -44,6 +50,7 @@ export default function MaterialsPage() {
                   <div style={{ display: 'flex', gap: 6 }}>
                     <a href={`/p/${m.id}`} target="_blank" style={{ padding: '3px 8px', background: 'var(--bg-sidebar)', border: '1px solid var(--border)', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: 'var(--text-secondary)' }}>Podgląd</a>
                     <Link href={`/material/${m.id}`} style={{ padding: '3px 8px', background: 'var(--accent)', color: 'white', borderRadius: 4, fontSize: 11, textDecoration: 'none' }}>Edytuj</Link>
+                    <button onClick={() => handleDelete(m.id, m.name)} title="Usuń materiał" style={{ padding: '3px 8px', background: 'white', border: '1px solid #fecaca', color: '#b91c1c', borderRadius: 4, fontSize: 11, cursor: 'pointer' }}>Usuń</button>
                   </div>
                 </td>
               </tr>

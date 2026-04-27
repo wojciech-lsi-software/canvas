@@ -1,12 +1,21 @@
 export interface Material {
   id: string
   name: string
-  type: 'landing' | 'presentation' | 'onepager'
+  type: 'landing' | 'presentation' | 'onepager' | 'script' | 'email'
   client: string
   product: string
   blobUrl: string
   thumbnailUrl?: string
   templateId?: string
+  params?: {
+    clientName: string
+    clientIndustry: string
+    productName: string
+    logoUrl: string
+    accentColor: string
+    focus: string
+  }
+  locked?: boolean
   createdAt: string
 }
 

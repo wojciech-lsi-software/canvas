@@ -30,6 +30,9 @@ export async function POST(req: NextRequest) {
     const blob = await put(filename, remixed, { access: 'public', contentType: 'text/html' })
 
     const existing = existingId ? await kv.get<any>(`mm:material:${materialId}`) : null
+    if (existing?.locked) {
+      return NextResponse.json({ error: 'Material zablokowany przed regeneracją' }, { status: 423 })
+    }
     await kv.set(`mm:material:${materialId}`, {
       id: materialId,
       name: existing?.name ?? `${params.clientName} — ${template.name}`,
@@ -38,6 +41,7 @@ export async function POST(req: NextRequest) {
       product: params.productName,
       blobUrl: blob.url,
       templateId,
+      params,
       createdAt: existing?.createdAt ?? new Date().toISOString(),
     })
 
